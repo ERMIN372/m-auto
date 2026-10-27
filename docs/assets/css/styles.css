@@ -1,0 +1,347 @@
+/* M-AUTO — стили лендинга.
+   Токены в :root: акцент, шрифт и шкала меняются в одном месте.
+   Специфичность плоская: один класс на правило, модификаторы через --. */
+
+/* ------------------------------------------------------------ шрифт */
+
+@font-face {
+  font-family: "Onest";
+  src: url("../fonts/onest-var.woff2") format("woff2");
+  font-weight: 400 650;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ------------------------------------------------------------ токены */
+
+:root {
+  /* палитра */
+  --c-paper: #ffffff;
+  --c-mist: #f2f3f4;
+  --c-ink: #141617;
+  --c-muted: #5a6067;
+  --c-graphite: #24282c;
+  --c-accent: #0e518d;          /* только CTA-кнопки */
+  --c-accent-hover: #0b4274;
+  --c-accent-active: #093862;
+
+  /* служебные */
+  --c-line: #dde0e3;            /* декоративные линии */
+  --c-field: #8a9096;           /* рамки полей, ≥ 3:1 к фону */
+  --c-error: #b3261e;
+  --c-on-dark: #ffffff;
+  --c-on-dark-muted: #b9bec3;
+  --c-line-dark: #464b51;
+
+  /* шрифт */
+  --font: "Onest", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --fw-text: 400;
+  --fw-ui: 520;
+  --fw-head: 560;
+  --fw-strong: 620;
+
+  /* шкала: линейно от 390 до 1440px */
+  --fs-display: clamp(2.25rem, 1.414rem + 3.429vw, 4.5rem);   /* 36 → 72 */
+  --fs-h1: clamp(2.125rem, 1.521rem + 2.476vw, 3.75rem);      /* 34 → 60 */
+  --fs-h2: clamp(1.75rem, 1.379rem + 1.524vw, 2.75rem);       /* 28 → 44 */
+  --fs-h2-xl: clamp(2rem, 1.443rem + 2.286vw, 3.5rem);        /* 32 → 56 */
+  --fs-h3: clamp(1.25rem, 1.157rem + 0.381vw, 1.5rem);        /* 20 → 24 */
+  --fs-figure: clamp(1.625rem, 1.346rem + 1.143vw, 2.375rem); /* 26 → 38 */
+  --fs-statement: clamp(1.5rem, 1.314rem + 0.762vw, 2rem);    /* 24 → 32 */
+  --fs-lead: clamp(1.1875rem, 1.118rem + 0.286vw, 1.375rem);  /* 19 → 22 */
+  --fs-body: clamp(1.0625rem, 1.039rem + 0.095vw, 1.125rem);  /* 17 → 18 */
+  --fs-ui: 1.0625rem;                                          /* 17: поля и кнопки */
+  --fs-small: 0.9375rem;                                       /* 15 */
+  --fs-tiny: 0.8125rem;                                        /* 13 */
+
+  --lh-tight: 1.08;
+  --lh-head: 1.15;
+  --lh-text: 1.55;
+  --measure: 68ch;
+
+  /* отступы: шаг 4px */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 3rem;
+  --s-8: 4rem;
+  --s-9: 6rem;
+  --s-10: 8rem;
+  --section-y: clamp(4rem, 2.607rem + 5.714vw, 7.5rem);       /* 64 → 120 */
+
+  /* сетка */
+  --container: 75rem;           /* 1200 */
+  --gutter: 1.25rem;            /* 20 / 32 / 48 */
+  --gap: 1.5rem;
+
+  /* скругления по ролям */
+  --r-xs: 4px;                  /* чекбокс, плашки */
+  --r-sm: 10px;                 /* кнопки, поля, переключатели */
+  --r-md: 14px;                 /* карточки, панели, фото */
+
+  --sticky-h: 4.5rem;           /* высота липкой кнопки с полями */
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+}
+
+@media (min-width: 768px) {
+  :root { --gutter: 2rem; }
+}
+
+@media (min-width: 1024px) {
+  :root { --gutter: 3rem; }
+}
+
+/* ------------------------------------------------------------ база */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  font-family: var(--font);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-text);
+  line-height: var(--lh-text);
+  color: var(--c-ink);
+  background: var(--c-paper);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-variant-numeric: lining-nums;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+dl,
+dd,
+figure,
+blockquote {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: var(--fw-head);
+  line-height: var(--lh-head);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--c-ink);
+  outline-offset: 3px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ------------------------------------------------------------ утилиты */
+
+.vh {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.nobr {
+  white-space: nowrap;
+}
+
+.container {
+  width: 100%;
+  max-width: calc(var(--container) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: max(var(--gutter), env(safe-area-inset-left)) max(var(--gutter), env(safe-area-inset-right));
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--s-4);
+  top: var(--s-4);
+  z-index: 100;
+  padding: var(--s-3) var(--s-4);
+  background: var(--c-ink);
+  color: var(--c-paper);
+  border-radius: var(--r-sm);
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+/* ------------------------------------------------------------ кнопки */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  min-height: 3.5rem;
+  padding: 0.875rem 1.75rem;
+  border: 1px solid transparent;
+  border-radius: var(--r-sm);
+  font-size: var(--fs-ui);
+  font-weight: var(--fw-ui);
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.15s var(--ease), border-color 0.15s var(--ease);
+}
+
+.btn--primary {
+  background: var(--c-accent);
+  color: var(--c-on-dark);
+}
+
+.btn--primary:hover {
+  background: var(--c-accent-hover);
+}
+
+.btn--primary:active {
+  background: var(--c-accent-active);
+}
+
+.btn--secondary {
+  background: transparent;
+  color: var(--c-ink);
+  border-color: var(--c-ink);
+}
+
+.btn--secondary:hover {
+  background: var(--c-mist);
+}
+
+.btn--block {
+  width: 100%;
+}
+
+.btn:disabled {
+  cursor: progress;
+  opacity: 0.72;
+}
+
+/* ------------------------------------------------------------ демо-плашка (только превью) */
+
+.demo-badge {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--s-2) var(--gutter) 0;
+  font-size: var(--fs-tiny);
+  line-height: 1.3;
+}
+
+.demo-badge__text {
+  padding: var(--s-1) var(--s-2);
+  border-radius: var(--r-xs);
+  background: var(--c-graphite);
+  color: var(--c-on-dark);
+}
+
+@media (min-width: 768px) {
+  .demo-badge {
+    position: fixed;
+    left: var(--s-4);
+    bottom: var(--s-4);
+    z-index: 40;
+    padding: 0;
+  }
+}
+
+/* ------------------------------------------------------------ шапка */
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  min-height: 4rem;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: var(--fw-strong);
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: var(--c-ink);
+  text-decoration: none;
+}
+
+.header-phone {
+  display: inline-flex;
+  align-items: center;
+  min-height: 3rem;
+  font-size: 1rem;
+  font-weight: var(--fw-ui);
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.header-phone:hover {
+  text-decoration: underline;
+}
