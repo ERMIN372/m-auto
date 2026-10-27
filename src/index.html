@@ -365,7 +365,67 @@
     </div>
   </section>
 
+  <!-- 10. ОТЗЫВЫ. Только реальные материалы с согласия клиентов: имена и истории не выдумывать. -->
+  <section class="reviews" aria-labelledby="reviews-title">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="section-title" id="reviews-title">Что говорят клиенты M-AUTO</h2>
+      </div>
+      <ul class="reviews__photos">
+        <!-- ФОТО КЛИЕНТА 1: src/assets/img/raw/client-1.jpg (3:2, от 1600 px). Подпись: имя, город, модель или удалить. Потом удалить data-placeholder. -->
+        <li class="shot" data-placeholder="client-1">
+          <figure>
+            <div class="shot__media"><!-- img:client-1 alt="Клиент M-AUTO с автомобилем, привезённым из Европы" sizes="(min-width: 1024px) 384px, (min-width: 480px) 50vw, 100vw" ph="client" ratio="3:2" class="shot__img" --></div>
+            <figcaption class="shot__caption">Фото клиента с автомобилем</figcaption>
+          </figure>
+        </li>
+        <!-- ФОТО КЛИЕНТА 2: client-2.jpg (3:2). Потом удалить data-placeholder. -->
+        <li class="shot" data-placeholder="client-2">
+          <figure>
+            <div class="shot__media"><!-- img:client-2 alt="Клиент M-AUTO получил автомобиль из Германии" sizes="(min-width: 1024px) 384px, 50vw" ph="client" ratio="3:2" class="shot__img" --></div>
+            <figcaption class="shot__caption">Фото клиента с автомобилем</figcaption>
+          </figure>
+        </li>
+        <!-- ФОТО КЛИЕНТА 3: client-3.jpg (3:2). Если третьего фото нет, удалите этот li целиком. -->
+        <li class="shot" data-placeholder="client-3">
+          <figure>
+            <div class="shot__media"><!-- img:client-3 alt="Клиент M-AUTO с автомобилем после доставки из Европы в Россию" sizes="(min-width: 1024px) 384px, 50vw" ph="client" ratio="3:2" class="shot__img" --></div>
+            <figcaption class="shot__caption">Фото клиента с автомобилем</figcaption>
+          </figure>
+        </li>
+      </ul>
+      <ul class="reviews__list">
+        <!-- ОТЗЫВ 1: 2–4 предложения клиента как есть, без правки в рекламный тон. Имя и город с согласия клиента. Потом удалить data-placeholder. -->
+        <li class="review" data-placeholder="review-1">
+          <blockquote class="review__text"><p>Здесь будет отзыв клиента: 2–4 предложения о подборе, проверке и получении машины</p></blockquote>
+          <p class="review__author">Имя, город</p>
+        </li>
+        <!-- ОТЗЫВ 2 -->
+        <li class="review" data-placeholder="review-2">
+          <blockquote class="review__text"><p>Здесь будет отзыв клиента: 2–4 предложения о подборе, проверке и получении машины</p></blockquote>
+          <p class="review__author">Имя, город</p>
+        </li>
+        <!-- ОТЗЫВ 3 -->
+        <li class="review" data-placeholder="review-3">
+          <blockquote class="review__text"><p>Здесь будет отзыв клиента: 2–4 предложения о подборе, проверке и получении машины</p></blockquote>
+          <p class="review__author">Имя, город</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 11. ФИНАЛЬНЫЙ CTA: кнопка ведёт к той же форме (без модалки) -->
+  <section class="final" aria-labelledby="final-title">
+    <div class="container">
+      <h2 class="final__title" id="final-title">Расскажите, какой автомобиль вы ищете</h2>
+      <p class="final__text">Мы посмотрим доступные варианты в Германии и Европе и свяжемся с вами.</p>
+      <a class="btn btn--primary final__cta" href="#form" data-cta="final">Получить варианты</a>
+    </div>
+  </section>
+
 </main>
+
+<!-- include:footer -->
 
 <!-- липкая кнопка на мобиле: показывает main.js -->
 <div class="sticky-cta" id="sticky-cta">

@@ -10,7 +10,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/onest-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/styles.css?v=485eeaca">
+<link rel="stylesheet" href="assets/css/styles.css?v=73c81415">
 <script src="assets/js/main.js?v=4952884e" defer></script>
 
 <title>Авто из Германии и Европы под заказ | M-AUTO</title>
@@ -382,7 +382,100 @@
     </div>
   </section>
 
+  <!-- 10. ОТЗЫВЫ. Только реальные материалы с согласия клиентов: имена и истории не выдумывать. -->
+  <section class="reviews" aria-labelledby="reviews-title">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="section-title" id="reviews-title">Что говорят клиенты <span class="nobr">M-AUTO</span></h2>
+      </div>
+      <ul class="reviews__photos">
+        <!-- ФОТО КЛИЕНТА 1: src/assets/img/raw/client-1.jpg (3:2, от 1600 px). Подпись: имя, город, модель или удалить. Потом удалить data-placeholder. -->
+        <li class="shot" data-placeholder="client-1">
+          <figure>
+            <div class="shot__media"><img class="shot__img is-placeholder" src="assets/img/placeholders/client.svg" width="1200" height="800" alt="Клиент M-AUTO с автомобилем, привезённым из Европы" loading="lazy" decoding="async" data-placeholder="client-1"></div>
+            <figcaption class="shot__caption">Фото клиента с автомобилем</figcaption>
+          </figure>
+        </li>
+        <!-- ФОТО КЛИЕНТА 2: client-2.jpg (3:2). Потом удалить data-placeholder. -->
+        <li class="shot" data-placeholder="client-2">
+          <figure>
+            <div class="shot__media"><img class="shot__img is-placeholder" src="assets/img/placeholders/client.svg" width="1200" height="800" alt="Клиент M-AUTO получил автомобиль из Германии" loading="lazy" decoding="async" data-placeholder="client-2"></div>
+            <figcaption class="shot__caption">Фото клиента с автомобилем</figcaption>
+          </figure>
+        </li>
+        <!-- ФОТО КЛИЕНТА 3: client-3.jpg (3:2). Если третьего фото нет, удалите этот li целиком. -->
+        <li class="shot" data-placeholder="client-3">
+          <figure>
+            <div class="shot__media"><img class="shot__img is-placeholder" src="assets/img/placeholders/client.svg" width="1200" height="800" alt="Клиент M-AUTO с автомобилем после доставки из Европы в Россию" loading="lazy" decoding="async" data-placeholder="client-3"></div>
+            <figcaption class="shot__caption">Фото клиента с автомобилем</figcaption>
+          </figure>
+        </li>
+      </ul>
+      <ul class="reviews__list">
+        <!-- ОТЗЫВ 1: 2–4 предложения клиента как есть, без правки в рекламный тон. Имя и город с согласия клиента. Потом удалить data-placeholder. -->
+        <li class="review" data-placeholder="review-1">
+          <blockquote class="review__text"><p>Здесь будет отзыв клиента: <span class="nobr">2–4</span> предложения о подборе, проверке и получении машины</p></blockquote>
+          <p class="review__author">Имя, город</p>
+        </li>
+        <!-- ОТЗЫВ 2 -->
+        <li class="review" data-placeholder="review-2">
+          <blockquote class="review__text"><p>Здесь будет отзыв клиента: <span class="nobr">2–4</span> предложения о подборе, проверке и получении машины</p></blockquote>
+          <p class="review__author">Имя, город</p>
+        </li>
+        <!-- ОТЗЫВ 3 -->
+        <li class="review" data-placeholder="review-3">
+          <blockquote class="review__text"><p>Здесь будет отзыв клиента: <span class="nobr">2–4</span> предложения о подборе, проверке и получении машины</p></blockquote>
+          <p class="review__author">Имя, город</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 11. ФИНАЛЬНЫЙ CTA: кнопка ведёт к той же форме (без модалки) -->
+  <section class="final" aria-labelledby="final-title">
+    <div class="container">
+      <h2 class="final__title" id="final-title">Расскажите, какой автомобиль вы ищете</h2>
+      <p class="final__text">Мы посмотрим доступные варианты в Германии и Европе и свяжемся с вами.</p>
+      <a class="btn btn--primary final__cta" href="#form" data-cta="final">Получить варианты</a>
+    </div>
+  </section>
+
 </main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <p class="footer__logo"><span class="nobr">M-AUTO</span></p>
+        <p class="footer__tagline">Подбор и доставка автомобилей из Германии и Европы.</p>
+      </div>
+      <div class="footer__col">
+        <p class="footer__heading">Контакты</p>
+        <!-- контакты берутся из site.config.json; пустой ключ убирает строку -->
+        <ul class="footer__links">
+          <li><a href="tel:+70000000000" data-goal="phone_click" data-where="footer">+7 (000) 000-00-00</a></li>
+          <li><a href="#" target="_blank" rel="noopener" data-goal="messenger_click" data-where="footer">WhatsApp</a></li>
+          <li><a href="#" target="_blank" rel="noopener" data-goal="messenger_click" data-where="footer">Telegram</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <p class="footer__heading">Документы</p>
+        <ul class="footer__links">
+          <li><a href="privacy/">Политика конфиденциальности</a></li>
+          <li><a href="consent/">Согласие на обработку персональных данных</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <p class="footer__heading">Юридическая информация</p>
+        <p class="footer__legal">ООО «Название»<br>ИНН 0000000000<br>ОГРН 0000000000000<br>Адрес</p>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p class="footer__disclaimer">Возможность приобретения и доставки конкретного автомобиля определяется после проверки его характеристик, документов и применимых требований законодательства.</p>
+      <p class="footer__copy">© 2026 <span class="nobr">M-AUTO</span></p>
+    </div>
+  </div>
+</footer>
 
 <!-- липкая кнопка на мобиле: показывает main.js -->
 <div class="sticky-cta" id="sticky-cta">

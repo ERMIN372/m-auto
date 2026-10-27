@@ -112,6 +112,9 @@ html {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   margin: 0;
   min-width: 320px;
   font-family: var(--font);
@@ -1383,6 +1386,274 @@ select {
     column-gap: var(--s-9);
     padding-top: var(--s-8);
   }
+}
+
+/* ------------------------------------------------------------ 10. отзывы */
+
+.reviews {
+  padding-block: var(--section-y);
+  background: var(--c-mist);
+}
+
+.reviews__photos {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--s-3);
+}
+
+.shot:first-child {
+  grid-column: 1 / -1;
+}
+
+.shot__media {
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: #e6e8eb;
+  border-radius: var(--r-md);
+}
+
+.shot__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.shot__caption {
+  margin-top: var(--s-2);
+  font-size: var(--fs-small);
+  line-height: 1.4;
+  color: var(--c-muted);
+}
+
+.reviews__list {
+  display: grid;
+  gap: var(--s-4);
+  margin-top: var(--s-6);
+}
+
+.review {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  padding: var(--s-5);
+  background: var(--c-paper);
+  border-radius: var(--r-md);
+}
+
+.review__text {
+  flex: 1;
+  font-size: var(--fs-body);
+  line-height: 1.55;
+}
+
+.review[data-placeholder] .review__text {
+  color: var(--c-muted);
+}
+
+.review__author {
+  font-size: var(--fs-small);
+  font-weight: var(--fw-ui);
+}
+
+@media (min-width: 1024px) {
+  .reviews__photos {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--s-5);
+  }
+
+  .shot:first-child {
+    grid-column: auto;
+  }
+
+  .reviews__list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--s-5);
+    margin-top: var(--s-7);
+  }
+
+  .review {
+    padding: var(--s-6);
+  }
+}
+
+/* ------------------------------------------------------------ 11. финальный CTA */
+
+.final {
+  padding-block: clamp(5rem, 3.329rem + 6.857vw, 9.5rem);
+}
+
+.final__title {
+  max-width: 14em;
+  font-size: var(--fs-h2-xl);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+
+.final__text {
+  max-width: 40ch;
+  margin-top: var(--s-4);
+  font-size: var(--fs-lead);
+  line-height: 1.45;
+  color: var(--c-muted);
+}
+
+.final__cta {
+  width: 100%;
+  margin-top: var(--s-6);
+}
+
+@media (min-width: 768px) {
+  .final__cta {
+    width: auto;
+    min-width: 17rem;
+    margin-top: var(--s-7);
+  }
+}
+
+/* ------------------------------------------------------------ 12. футер */
+
+.site-footer {
+  padding-block: var(--s-8) var(--s-6);
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  background: var(--c-mist);
+}
+
+.footer__grid {
+  display: grid;
+  gap: var(--s-6);
+}
+
+.footer__logo {
+  font-size: 1.25rem;
+  font-weight: var(--fw-strong);
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.footer__tagline {
+  max-width: 26ch;
+  margin-top: var(--s-3);
+  color: var(--c-muted);
+}
+
+.footer__heading {
+  margin-bottom: var(--s-2);
+  font-weight: var(--fw-ui);
+}
+
+.footer__links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  text-decoration: none;
+}
+
+.footer__links a:hover {
+  text-decoration: underline;
+}
+
+.footer__legal {
+  color: var(--c-muted);
+}
+
+.footer__bottom {
+  margin-top: var(--s-7);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--c-line);
+}
+
+.footer__disclaimer {
+  max-width: 72ch;
+  font-size: var(--fs-tiny);
+  line-height: 1.5;
+  color: var(--c-muted);
+}
+
+.footer__copy {
+  margin-top: var(--s-3);
+  font-size: var(--fs-tiny);
+  color: var(--c-muted);
+}
+
+@media (min-width: 768px) {
+  .footer__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .footer__grid {
+    grid-template-columns: minmax(0, 4fr) repeat(3, minmax(0, 3fr));
+    gap: var(--s-6);
+  }
+}
+
+/* ------------------------------------------------------------ документы, «спасибо», 404 */
+
+.doc {
+  flex: 1 0 auto;
+  padding-block: var(--s-6) var(--s-9);
+}
+
+.doc__inner {
+  max-width: 46rem;
+}
+
+.doc__title {
+  font-size: var(--fs-h2-xl);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+
+.doc__meta {
+  margin-top: var(--s-3);
+  font-size: var(--fs-small);
+  color: var(--c-muted);
+}
+
+.doc h2 {
+  margin-top: var(--s-7);
+  font-size: var(--fs-h3);
+}
+
+.doc p,
+.doc ul {
+  margin-top: var(--s-4);
+}
+
+.doc ul {
+  padding-left: 1.25em;
+  list-style: disc;
+}
+
+.doc li + li {
+  margin-top: var(--s-1);
+}
+
+.thanks {
+  padding-top: var(--s-6);
+}
+
+.thanks__text {
+  margin-top: var(--s-4);
+  font-size: var(--fs-lead);
+  color: var(--c-muted);
+}
+
+.thanks__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-4) var(--s-6);
+  margin-top: var(--s-7);
+}
+
+.thanks__home {
+  display: inline-flex;
+  align-items: center;
+  min-height: 3rem;
+  font-weight: var(--fw-ui);
 }
 
 /* ------------------------------------------------------------ липкая кнопка (мобила) */
