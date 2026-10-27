@@ -576,7 +576,7 @@ select {
 }
 
 .field__input::placeholder {
-  color: #737980;
+  color: #6d737a; /* ≥ 4.5:1 к белому */
   opacity: 1;
 }
 

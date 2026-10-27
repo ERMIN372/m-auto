@@ -88,6 +88,41 @@ const ok = (cond, msg) => { console.log(`${cond ? 'OK  ' : 'FAIL'} ${msg}`); if 
   const before = await page.$$eval('a', (as) => as.filter((a) => a.textContent.includes('Telegram') && a.closest('#form-done') === null && /каталог|актуальн/i.test(a.textContent)).length);
   ok(before === 0, 'Telegram-каталог нигде вне панели успеха');
 
+  // каждая кнопка «Получить варианты» ведёт к форме и ставит фокус в «Имя»
+  const ctas = await page.$$eval('a[data-cta]', (as) => as.map((a) => a.dataset.cta));
+  for (const where of ctas) {
+    const p2 = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+    await p2.goto(url, { waitUntil: 'networkidle' });
+    const sel = `a[data-cta="${where}"]`;
+    if (where === 'sticky') {
+      await p2.evaluate(() => window.scrollTo({ top: document.querySelector('.cases').offsetTop, behavior: 'instant' }));
+      await p2.waitForTimeout(400);
+    } else {
+      await p2.$eval(sel, (a) => a.scrollIntoView({ block: 'center', behavior: 'instant' }));
+    }
+    const text = (await p2.textContent(sel)).trim();
+    await p2.click(sel);
+    // ждём, пока плавная прокрутка остановится
+    let last = -1;
+    for (let i = 0; i < 40; i++) {
+      await p2.waitForTimeout(100);
+      const y = await p2.evaluate(() => window.scrollY);
+      if (y === last) break;
+      last = y;
+    }
+    const focus = await p2.evaluate(() => document.activeElement.id);
+    const top = await p2.$eval('#form', (el) => Math.round(el.getBoundingClientRect().top));
+    ok(text === 'Получить варианты' && focus === 'f-name' && Math.abs(top) < 40, `CTA «${where}» → форма, фокус в «Имя» (top=${top})`);
+    await p2.close();
+  }
+
+  // 320px: без горизонтального скролла
+  const narrow = await browser.newPage({ viewport: { width: 320, height: 640 }, isMobile: true });
+  await narrow.goto(url, { waitUntil: 'networkidle' });
+  const sw = await narrow.evaluate(() => document.documentElement.scrollWidth);
+  ok(sw <= 320, `320px: нет горизонтального скролла (ширина ${sw})`);
+  await narrow.close();
+
   await browser.close();
   console.log(failed ? `\nПровалено: ${failed}` : '\nВсе проверки пройдены');
   process.exit(failed ? 1 : 0);
