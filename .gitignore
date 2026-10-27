@@ -1,6 +1,6 @@
 # сборка
-dist/
-qa/
+/dist/
+/qa/
 
 # исходники фото (оптимизированные лежат в src/assets/img/)
 src/assets/img/raw/

@@ -1,0 +1,9 @@
+# Заявки и служебные файлы: доступ извне запрещён.
+# На nginx этот файл не работает: вынесите storage_dir за пределы сайта (см. README).
+<IfModule mod_authz_core.c>
+  Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+  Order allow,deny
+  Deny from all
+</IfModule>
