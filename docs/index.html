@@ -11,25 +11,25 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/onest-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/styles.css?v=73c81415">
-<script src="assets/js/main.js?v=4952884e" defer></script>
+<script src="assets/js/main.js?v=d37aff18" defer></script>
 
 <title>Авто из Германии и Европы под заказ | M-AUTO</title>
 <meta name="description" content="M-AUTO — подбор, проверка и доставка автомобилей из Германии и Европы по всей России. Фиксированная цена по договору, полная проверка авто и доставка автовозами.">
 <meta name="robots" content="noindex, nofollow">
+
 </head>
 <body>
 <a class="skip-link" href="./#form">К форме подбора</a>
 <div class="demo-badge"><span class="demo-badge__text">Демо-версия для согласования</span></div>
 <header class="site-header">
   <div class="container site-header__inner">
-    <!-- Логотип текстом. Чтобы заменить на SVG: положите svg внутрь ссылки, текст оставьте в aria-label. -->
+
     <a class="logo" href="./" aria-label="M-AUTO, на главную"><span class="nobr">M-AUTO</span></a>
     <a class="header-phone" href="tel:+70000000000" data-goal="phone_click" data-where="header">+7 (000) 000-00-00</a>
   </div>
 </header>
 <main id="main">
 
-  <!-- 1. ПЕРВЫЙ ЭКРАН -->
   <section class="hero" aria-labelledby="hero-title">
     <div class="container hero__grid">
       <div class="hero__text">
@@ -49,14 +49,12 @@
         </ul>
       </div>
       <div class="hero__media">
-        <!-- ФОТО ПЕРВОГО ЭКРАНА: src/assets/img/raw/hero.jpg (от 1920 px по ширине, авто целиком, без людей),
-             затем scripts/optimize_images.py и scripts/build.py. Подробно: CONTENT_TO_REPLACE.md -->
+
         <img class="hero__img is-placeholder" src="assets/img/placeholders/hero.svg" width="1200" height="900" alt="Автомобиль из Европы под заказ, доставленный клиенту в Россию" loading="eager" fetchpriority="high" decoding="async" data-placeholder="hero">
       </div>
     </div>
   </section>
 
-  <!-- 2. ФОРМА ПОДБОРА -->
   <section class="lead" id="form" aria-labelledby="form-title">
     <div class="container lead__grid">
       <div class="lead__intro">
@@ -139,7 +137,6 @@
             </fieldset>
           </div>
 
-          <!-- скрытые поля: источник заявки (заполняет main.js) -->
           <input type="hidden" name="utm_source" value="">
           <input type="hidden" name="utm_medium" value="">
           <input type="hidden" name="utm_campaign" value="">
@@ -149,7 +146,7 @@
           <input type="hidden" name="referrer" value="">
           <input type="hidden" name="landing_url" value="">
           <input type="hidden" name="form_ts" value="">
-          <!-- ловушка для ботов: человек это поле не видит -->
+
           <div class="form__trap" aria-hidden="true">
             <label for="f-company-site">Сайт компании</label>
             <input id="f-company-site" type="text" name="company_site" value="" tabindex="-1" autocomplete="off">
@@ -157,7 +154,7 @@
 
           <div class="form__submit">
             <button class="btn btn--primary btn--block form__button" type="submit" data-cta="form">Получить варианты</button>
-            
+
             <div class="consent">
               <label class="check" for="f-consent">
                 <input class="check__input" id="f-consent" type="checkbox" name="consent" value="1" required aria-describedby="f-consent-error">
@@ -167,8 +164,7 @@
               <p class="field__error" id="f-consent-error"></p>
               <p class="consent__policy"><a href="privacy/" target="_blank" rel="noopener">Политика конфиденциальности</a></p>
             </div>
-            
-            
+
           </div>
 
           <div class="form__alert" id="form-alert" role="alert" hidden>
@@ -187,15 +183,14 @@
           <svg class="done__icon" viewBox="0 0 40 40" width="40" height="40" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="20" cy="20" r="18"/><path d="m12.5 20.5 5 5 10-11"/></svg>
           <p class="done__title">Спасибо! Заявка получена.</p>
           <p class="done__text">Менеджер <span class="nobr">M-AUTO</span> свяжется с вами.</p>
-          
+
           <a class="btn btn--secondary done__link" href="#" target="_blank" rel="noopener" data-goal="tg_catalog_click" data-where="form_success">Смотреть актуальные авто в Telegram</a>
-          
+
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 3. ДОВЕРИЕ -->
   <section class="trust" aria-labelledby="trust-title">
     <div class="container">
       <h2 class="vh" id="trust-title"><span class="nobr">M-AUTO</span> в цифрах</h2>
@@ -208,8 +203,6 @@
     </div>
   </section>
 
-  
-  <!-- 4. АКЦИЯ: показ включается флагом promo_enabled в site.config.json -->
   <section class="promo" aria-labelledby="promo-title">
     <div class="container">
       <div class="promo__panel">
@@ -221,9 +214,7 @@
       </div>
     </div>
   </section>
-  
 
-  <!-- 5. АВТОМОБИЛИ, КОТОРЫЕ УЖЕ ПРИВЕЗЛИ -->
   <section class="cases" aria-labelledby="cases-title">
     <div class="container">
       <div class="section-head">
@@ -231,7 +222,7 @@
         <p class="section-lead">От популярных семейных моделей до премиальных и редких автомобилей.</p>
       </div>
       <ul class="cases__list">
-        <!-- КЕЙС 1. Заменить: фото src/assets/img/raw/case-1.jpg, марку и модель, alt, год, срок, цену. Потом удалить data-placeholder у li. -->
+
         <li class="case" data-placeholder="case-1">
           <div class="case__media"><img class="case__img is-placeholder" src="assets/img/placeholders/car-hatch.svg" width="1200" height="900" alt="Компактный хэтчбек, привезённый из Европы под заказ" loading="lazy" decoding="async" data-placeholder="case-1"></div>
           <div class="case__body">
@@ -243,7 +234,7 @@
             <p class="case__price">X XXX XXX ₽ под ключ</p>
           </div>
         </li>
-        <!-- КЕЙС 2. Заменить: фото case-2.jpg, марку и модель, alt, год, срок, цену. Потом удалить data-placeholder. -->
+
         <li class="case" data-placeholder="case-2">
           <div class="case__media"><img class="case__img is-placeholder" src="assets/img/placeholders/car-crossover.svg" width="1200" height="900" alt="Семейный кроссовер из Германии, доставленный клиенту в Россию" loading="lazy" decoding="async" data-placeholder="case-2"></div>
           <div class="case__body">
@@ -255,7 +246,7 @@
             <p class="case__price">X XXX XXX ₽ под ключ</p>
           </div>
         </li>
-        <!-- КЕЙС 3. Заменить: фото case-3.jpg, марку и модель, alt, год, срок, цену. Потом удалить data-placeholder. -->
+
         <li class="case" data-placeholder="case-3">
           <div class="case__media"><img class="case__img is-placeholder" src="assets/img/placeholders/car-sedan.svg" width="1200" height="900" alt="Бизнес-седан, пригнанный из Европы" loading="lazy" decoding="async" data-placeholder="case-3"></div>
           <div class="case__body">
@@ -267,7 +258,7 @@
             <p class="case__price">X XXX XXX ₽ под ключ</p>
           </div>
         </li>
-        <!-- КЕЙС 4. Заменить: фото case-4.jpg, марку и модель, alt, год, срок, цену. Потом удалить data-placeholder. -->
+
         <li class="case" data-placeholder="case-4">
           <div class="case__media"><img class="case__img is-placeholder" src="assets/img/placeholders/car-wagon.svg" width="1200" height="900" alt="Универсал из Европы после проверки и доставки" loading="lazy" decoding="async" data-placeholder="case-4"></div>
           <div class="case__body">
@@ -279,7 +270,7 @@
             <p class="case__price">X XXX XXX ₽ под ключ</p>
           </div>
         </li>
-        <!-- КЕЙС 5. Заменить: фото case-5.jpg, марку и модель, alt, год, срок, цену. Потом удалить data-placeholder. -->
+
         <li class="case" data-placeholder="case-5">
           <div class="case__media"><img class="case__img is-placeholder" src="assets/img/placeholders/car-suv.svg" width="1200" height="900" alt="Премиальный внедорожник из Германии под заказ" loading="lazy" decoding="async" data-placeholder="case-5"></div>
           <div class="case__body">
@@ -291,7 +282,7 @@
             <p class="case__price">X XXX XXX ₽ под ключ</p>
           </div>
         </li>
-        <!-- КЕЙС 6. Заменить: фото case-6.jpg, марку и модель, alt, год, срок, цену. Потом удалить data-placeholder. -->
+
         <li class="case" data-placeholder="case-6">
           <div class="case__media"><img class="case__img is-placeholder" src="assets/img/placeholders/car-ev.svg" width="1200" height="900" alt="Электромобиль, доставленный из Европы в Россию" loading="lazy" decoding="async" data-placeholder="case-6"></div>
           <div class="case__body">
@@ -307,7 +298,6 @@
     </div>
   </section>
 
-  <!-- 6. ПРОВЕРКА АВТОМОБИЛЯ: оформлено как лист осмотра -->
   <section class="inspect" aria-labelledby="inspect-title">
     <div class="container inspect__grid">
       <div class="inspect__intro">
@@ -330,7 +320,6 @@
     </div>
   </section>
 
-  <!-- 7. ФИКСИРОВАННАЯ ЦЕНА: главный визуальный акцент страницы -->
   <section class="price" aria-labelledby="price-title">
     <div class="container price__grid">
       <h2 class="price__title" id="price-title">Цена фиксируется в договоре</h2>
@@ -342,7 +331,6 @@
     </div>
   </section>
 
-  <!-- 8. ПОЭТАПНАЯ ОПЛАТА -->
   <section class="pay" aria-labelledby="pay-title">
     <div class="container">
       <div class="section-head">
@@ -369,7 +357,6 @@
     </div>
   </section>
 
-  <!-- 9. ОТВЕТСТВЕННОСТЬ ЗА ПРОВЕРКУ -->
   <section class="resp" aria-labelledby="resp-title">
     <div class="container">
       <div class="resp__grid">
@@ -382,28 +369,27 @@
     </div>
   </section>
 
-  <!-- 10. ОТЗЫВЫ. Только реальные материалы с согласия клиентов: имена и истории не выдумывать. -->
   <section class="reviews" aria-labelledby="reviews-title">
     <div class="container">
       <div class="section-head">
         <h2 class="section-title" id="reviews-title">Что говорят клиенты <span class="nobr">M-AUTO</span></h2>
       </div>
       <ul class="reviews__photos">
-        <!-- ФОТО КЛИЕНТА 1: src/assets/img/raw/client-1.jpg (3:2, от 1600 px). Подпись: имя, город, модель или удалить. Потом удалить data-placeholder. -->
+
         <li class="shot" data-placeholder="client-1">
           <figure>
             <div class="shot__media"><img class="shot__img is-placeholder" src="assets/img/placeholders/client.svg" width="1200" height="800" alt="Клиент M-AUTO с автомобилем, привезённым из Европы" loading="lazy" decoding="async" data-placeholder="client-1"></div>
             <figcaption class="shot__caption">Фото клиента с автомобилем</figcaption>
           </figure>
         </li>
-        <!-- ФОТО КЛИЕНТА 2: client-2.jpg (3:2). Потом удалить data-placeholder. -->
+
         <li class="shot" data-placeholder="client-2">
           <figure>
             <div class="shot__media"><img class="shot__img is-placeholder" src="assets/img/placeholders/client.svg" width="1200" height="800" alt="Клиент M-AUTO получил автомобиль из Германии" loading="lazy" decoding="async" data-placeholder="client-2"></div>
             <figcaption class="shot__caption">Фото клиента с автомобилем</figcaption>
           </figure>
         </li>
-        <!-- ФОТО КЛИЕНТА 3: client-3.jpg (3:2). Если третьего фото нет, удалите этот li целиком. -->
+
         <li class="shot" data-placeholder="client-3">
           <figure>
             <div class="shot__media"><img class="shot__img is-placeholder" src="assets/img/placeholders/client.svg" width="1200" height="800" alt="Клиент M-AUTO с автомобилем после доставки из Европы в Россию" loading="lazy" decoding="async" data-placeholder="client-3"></div>
@@ -412,17 +398,17 @@
         </li>
       </ul>
       <ul class="reviews__list">
-        <!-- ОТЗЫВ 1: 2–4 предложения клиента как есть, без правки в рекламный тон. Имя и город с согласия клиента. Потом удалить data-placeholder. -->
+
         <li class="review" data-placeholder="review-1">
           <blockquote class="review__text"><p>Здесь будет отзыв клиента: <span class="nobr">2–4</span> предложения о подборе, проверке и получении машины</p></blockquote>
           <p class="review__author">Имя, город</p>
         </li>
-        <!-- ОТЗЫВ 2 -->
+
         <li class="review" data-placeholder="review-2">
           <blockquote class="review__text"><p>Здесь будет отзыв клиента: <span class="nobr">2–4</span> предложения о подборе, проверке и получении машины</p></blockquote>
           <p class="review__author">Имя, город</p>
         </li>
-        <!-- ОТЗЫВ 3 -->
+
         <li class="review" data-placeholder="review-3">
           <blockquote class="review__text"><p>Здесь будет отзыв клиента: <span class="nobr">2–4</span> предложения о подборе, проверке и получении машины</p></blockquote>
           <p class="review__author">Имя, город</p>
@@ -431,7 +417,6 @@
     </div>
   </section>
 
-  <!-- 11. ФИНАЛЬНЫЙ CTA: кнопка ведёт к той же форме (без модалки) -->
   <section class="final" aria-labelledby="final-title">
     <div class="container">
       <h2 class="final__title" id="final-title">Расскажите, какой автомобиль вы ищете</h2>
@@ -451,7 +436,7 @@
       </div>
       <div class="footer__col">
         <p class="footer__heading">Контакты</p>
-        <!-- контакты берутся из site.config.json; пустой ключ убирает строку -->
+
         <ul class="footer__links">
           <li><a href="tel:+70000000000" data-goal="phone_click" data-where="footer">+7 (000) 000-00-00</a></li>
           <li><a href="#" target="_blank" rel="noopener" data-goal="messenger_click" data-where="footer">WhatsApp</a></li>
@@ -477,7 +462,6 @@
   </div>
 </footer>
 
-<!-- липкая кнопка на мобиле: показывает main.js -->
 <div class="sticky-cta" id="sticky-cta">
   <a class="btn btn--primary btn--block" href="#form" data-cta="sticky">Получить варианты</a>
 </div>

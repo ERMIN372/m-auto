@@ -64,13 +64,16 @@
   var formSection = doc.getElementById("form");
   var nameInput = doc.getElementById("f-name");
   var donePanel = doc.getElementById("form-done");
+  var autoFocus = false; // фокус от кнопки CTA не считается началом заполнения
 
   function goToForm() {
     if (!formSection) return false;
     var target = donePanel && !donePanel.hidden ? donePanel : nameInput;
     if (target) {
       // фокус синхронно в обработчике клика: так iOS открывает клавиатуру
+      autoFocus = true;
       try { target.focus({ preventScroll: true }); } catch (e) { target.focus(); }
+      autoFocus = false;
     }
     formSection.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
     return true;
@@ -327,13 +330,18 @@
 
     /* --- события --- */
 
-    form.addEventListener("focusin", function () {
+    function markStarted() {
       if (started) return;
       started = true;
       goal("form_start");
+    }
+
+    form.addEventListener("focusin", function () {
+      if (!autoFocus) markStarted();
     });
 
     form.addEventListener("input", function (e) {
+      markStarted();
       var t = e.target;
       if (t === f.milFrom || t === f.milTo) formatMileage(t);
       var key = keyOf(t);
@@ -349,6 +357,7 @@
     });
 
     form.addEventListener("change", function (e) {
+      markStarted();
       var t = e.target;
       if (t.name === "contact_method") return applyMethod();
       var key = keyOf(t);

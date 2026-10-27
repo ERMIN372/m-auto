@@ -57,8 +57,8 @@ class BuildError(Exception):
 
 # ---------------------------------------------------------------- конфиг
 
-def load_config(env: str) -> dict:
-    raw = json.loads(CONFIG.read_text(encoding="utf-8"))
+def load_config(env: str, path: Path = CONFIG) -> dict:
+    raw = json.loads(path.read_text(encoding="utf-8"))
     cfg = dict(raw.get("shared", {}))
     cfg.update(raw.get(env, {}))
     return cfg
@@ -133,7 +133,7 @@ ENV_RE = re.compile(r"<!-- env:(\w+) -->(.*?)<!-- endenv:\1 -->", re.S)
 IF_RE = re.compile(r"<!-- if(not)?:(\w+) -->(.*?)<!-- endif:\2 -->", re.S)
 IMG_RE = re.compile(r"<!-- img:([\w-]+)((?:\s+[\w-]+(?:=\"[^\"]*\")?)*)\s*-->")
 ATTR_RE = re.compile(r"([\w-]+)(?:=\"([^\"]*)\")?")
-VAR_RE = re.compile(r"\{\{\s*([\w]+)\s*\}\}")
+VAR_RE = re.compile(r"\{\{\s*(\w+)(?:\|(\w+))?\s*\}\}")
 
 
 def apply_includes(text: str, depth: int = 0) -> str:
@@ -188,13 +188,14 @@ def render_img(m, root: str, manifest: dict) -> str:
     info = manifest.get(name)
     if info:
         widths = info["widths"]
-        webp = ", ".join(f"{root}assets/img/{name}-{w}.webp {w}w" for w in widths)
-        jpg = ", ".join(f"{root}assets/img/{name}-{w}.jpg {w}w" for w in widths)
+        v = f'?v={info["v"]}' if info.get("v") else ""
+        webp = ", ".join(f"{root}assets/img/{name}-{w}.webp{v} {w}w" for w in widths)
+        jpg = ", ".join(f"{root}assets/img/{name}-{w}.jpg{v} {w}w" for w in widths)
         fallback_w = min(widths, key=lambda w: abs(w - 800))
         return (
             f'<picture>'
             f'<source type="image/webp" srcset="{webp}" sizes="{sizes}">'
-            f'<img class="{css}" src="{root}assets/img/{name}-{fallback_w}.jpg" srcset="{jpg}" sizes="{sizes}" '
+            f'<img class="{css}" src="{root}assets/img/{name}-{fallback_w}.jpg{v}" srcset="{jpg}" sizes="{sizes}" '
             f'width="{info["width"]}" height="{info["height"]}" alt="{alt}" {loading} decoding="async">'
             f'</picture>'
         )
@@ -211,10 +212,15 @@ def render_img(m, root: str, manifest: dict) -> str:
 
 def apply_vars(text: str, ctx: dict, rel: str) -> str:
     def repl(m):
-        key = m.group(1)
+        key, flt = m.group(1), m.group(2)
         if key not in ctx:
             raise BuildError(f"{rel}: неизвестный ключ {{{{{key}}}}}")
-        return ctx[key]
+        value = ctx[key]
+        if flt == "json":  # строка для JSON-LD без внешних кавычек
+            return json.dumps(value, ensure_ascii=False)[1:-1]
+        if flt:
+            raise BuildError(f"{rel}: неизвестный фильтр |{flt}")
+        return value
 
     return VAR_RE.sub(repl, text)
 
@@ -292,7 +298,7 @@ def should_skip(rel: Path, env: str) -> bool:
             return True
         if len(parts) > 2 and parts[1] == "storage" and rel.name != ".htaccess":
             return True
-    if env == "preview" and rel.as_posix() == "sitemap.xml":
+    if env == "preview" and rel.as_posix() in ("sitemap.xml", ".htaccess"):
         return True
     return False
 
@@ -307,7 +313,10 @@ def render_file(text: str, rel: Path, env: str, ctx: dict, manifest: dict) -> st
         text = IMG_RE.sub(lambda m: render_img(m, root, manifest), text)
     text = apply_vars(text, local, rel.as_posix())
     if rel.suffix == ".html":
+        # комментарии нужны в исходниках, на сайте это лишний вес и ложные пометки заглушек
+        text = re.sub(r"<!--(?!\[if).*?-->", "", text, flags=re.S)
         text = typograph_html(text)
+        text = re.sub(r"[ \t]+\n", "\n", text)
         text = re.sub(r"\n{3,}", "\n\n", text)
     return text
 
@@ -327,8 +336,8 @@ def find_placeholders(out: Path) -> list[str]:
     return found
 
 
-def build(env: str, allow_placeholders: bool) -> int:
-    cfg = load_config(env)
+def build(env: str, allow_placeholders: bool, config_path: Path = CONFIG) -> int:
+    cfg = load_config(env, config_path)
     ctx = make_context(cfg, env)
     out = OUT_DIRS[env]
 
@@ -384,9 +393,11 @@ def main() -> int:
     parser.add_argument("--env", choices=sorted(OUT_DIRS), required=True)
     parser.add_argument("--allow-placeholders", action="store_true",
                         help="собрать prod, даже если остались заглушки (для теста)")
+    parser.add_argument("--config", type=Path, default=CONFIG,
+                        help="другой файл конфига (для тестов), по умолчанию site.config.json")
     args = parser.parse_args()
     try:
-        return build(args.env, args.allow_placeholders)
+        return build(args.env, args.allow_placeholders, args.config)
     except BuildError as e:
         print(f"ОШИБКА СБОРКИ: {e}", file=sys.stderr)
         return 1
