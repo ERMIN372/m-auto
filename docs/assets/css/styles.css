@@ -456,9 +456,10 @@ select {
   }
 
   /* фото до правого края окна */
+  /* 4:3: горизонтальное фото авто помещается без обрезки по бокам */
   .hero__media {
-    min-height: 34rem;
-    aspect-ratio: auto;
+    align-self: center;
+    aspect-ratio: 4 / 3;
     margin-right: calc(-1 * (var(--gutter) + max(0px, (100vw - var(--container) - 2 * var(--gutter)) / 2)));
     border-radius: var(--r-md) 0 0 var(--r-md);
   }
