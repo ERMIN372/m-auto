@@ -1,0 +1,34 @@
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <p class="footer__logo">M-AUTO</p>
+        <p class="footer__tagline">Подбор и доставка автомобилей из Германии и Европы.</p>
+      </div>
+      <div class="footer__col">
+        <p class="footer__heading">Контакты</p>
+        <!-- контакты берутся из site.config.json; пустой ключ убирает строку -->
+        <ul class="footer__links">
+          <!-- if:phone_display --><li><a href="tel:{{phone_e164}}" data-goal="phone_click" data-where="footer">{{phone_display}}</a></li><!-- endif:phone_display -->
+          <!-- if:whatsapp_url --><li><a href="{{whatsapp_url}}" target="_blank" rel="noopener" data-goal="messenger_click" data-where="footer">WhatsApp</a></li><!-- endif:whatsapp_url -->
+          <!-- if:telegram_contact_url --><li><a href="{{telegram_contact_url}}" target="_blank" rel="noopener" data-goal="messenger_click" data-where="footer">Telegram</a></li><!-- endif:telegram_contact_url -->
+        </ul>
+      </div>
+      <div class="footer__col">
+        <p class="footer__heading">Документы</p>
+        <ul class="footer__links">
+          <li><a href="{{root}}privacy/">Политика конфиденциальности</a></li>
+          <li><a href="{{root}}consent/">Согласие на обработку персональных данных</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <p class="footer__heading">Юридическая информация</p>
+        <p class="footer__legal">{{legal_name}}<br>ИНН {{inn}}<br>ОГРН {{ogrn}}<br>{{legal_address}}</p>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p class="footer__disclaimer">Возможность приобретения и доставки конкретного автомобиля определяется после проверки его характеристик, документов и применимых требований законодательства.</p>
+      <p class="footer__copy">© {{year}} M-AUTO</p>
+    </div>
+  </div>
+</footer>

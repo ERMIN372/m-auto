@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ru" data-env="{{env}}"<!-- if:metrika_enabled --> data-ym="{{metrika_id}}"<!-- endif:metrika_enabled -->>
+<head>
+<!-- include:head -->
+<title>Заявка получена | M-AUTO</title>
+<meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+<!-- include:header -->
+<!-- Страница для отправки без JavaScript: сюда ведёт редирект из api/send.php -->
+<main id="main" class="doc">
+  <div class="container">
+  <div class="doc__inner thanks">
+    <h1 class="doc__title">Спасибо! Заявка получена.</h1>
+    <p class="thanks__text">Менеджер M-AUTO свяжется с вами.</p>
+    <div class="thanks__actions">
+      <!-- if:telegram_catalog_url --><a class="btn btn--secondary" href="{{telegram_catalog_url}}" target="_blank" rel="noopener" data-goal="tg_catalog_click" data-where="spasibo">Смотреть актуальные авто в Telegram</a><!-- endif:telegram_catalog_url -->
+      <a class="thanks__home" href="{{root}}">Вернуться на главную</a>
+    </div>
+  </div>
+  </div>
+</main>
+<!-- include:footer -->
+</body>
+</html>

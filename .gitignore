@@ -1,0 +1,19 @@
+# сборка
+/dist/
+/qa/
+
+# исходники фото (оптимизированные лежат в src/assets/img/)
+src/assets/img/raw/
+
+# секреты и данные заявок
+src/api/config.php
+src/api/storage/*
+!src/api/storage/.htaccess
+
+# служебное
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+node_modules/
+*.log

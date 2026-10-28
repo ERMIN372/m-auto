@@ -1,0 +1,52 @@
+# M-AUTO: настройки для Apache-хостинга (Beget, Timeweb и т.п.)
+# На nginx-хостинге этот файл не работает: настройки переносятся в конфиг сервера.
+
+AddDefaultCharset UTF-8
+Options -Indexes
+# путь от корня домена: если сайт лежит в подпапке, допишите её
+ErrorDocument 404 /404.html
+
+# --- HTTPS и выбор домена. Раскомментировать ТОЛЬКО ПОСЛЕ включения SSL. ---
+# <IfModule mod_rewrite.c>
+#   RewriteEngine On
+#   # http → https
+#   RewriteCond %{HTTPS} off
+#   RewriteCond %{HTTP:X-Forwarded-Proto} !https
+#   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+#   # www → без www (замените example.ru на свой домен)
+#   RewriteCond %{HTTP_HOST} ^www\.example\.ru$ [NC]
+#   RewriteRule ^ https://example.ru%{REQUEST_URI} [L,R=301]
+# </IfModule>
+
+<IfModule mod_mime.c>
+  AddType font/woff2 .woff2
+  AddType image/webp .webp
+  AddType image/svg+xml .svg
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/xml application/javascript application/json image/svg+xml
+</IfModule>
+
+# CSS, JS и картинки подключаются с ?v=хэш, поэтому их можно кэшировать надолго
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 hour"
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 30 days"
+  ExpiresByType image/svg+xml "access plus 30 days"
+  ExpiresByType image/x-icon "access plus 30 days"
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  # После проверки, что HTTPS работает на всех адресах:
+  # Header always set Strict-Transport-Security "max-age=31536000"
+</IfModule>

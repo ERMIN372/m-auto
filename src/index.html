@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="ru" data-env="{{env}}"<!-- if:metrika_enabled --> data-ym="{{metrika_id}}"<!-- endif:metrika_enabled -->>
+<head>
+<!-- include:head -->
+<title>Авто из Германии и Европы под заказ | M-AUTO</title>
+<meta name="description" content="M-AUTO — подбор, проверка и доставка автомобилей из Германии и Европы по всей России. Фиксированная цена по договору, полная проверка авто и доставка автовозами.">
+<!-- env:preview --><meta name="robots" content="noindex, nofollow"><!-- endenv:preview -->
+<!-- env:prod -->
+<link rel="canonical" href="{{site_url}}/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:site_name" content="M-AUTO">
+<meta property="og:title" content="Авто из Германии и Европы под заказ | M-AUTO">
+<meta property="og:description" content="Подбор, проверка и доставка автомобилей из Германии и Европы по всей России. Фиксированная цена по договору, полная проверка авто и доставка автовозами.">
+<meta property="og:url" content="{{site_url}}/">
+<meta property="og:image" content="{{site_url}}/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<!-- if:yandex_verification --><meta name="yandex-verification" content="{{yandex_verification}}"><!-- endif:yandex_verification -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "M-AUTO",
+  "legalName": "{{legal_name|json}}",
+  "url": "{{site_url|json}}/",
+  "logo": "{{site_url|json}}/apple-touch-icon.png",
+  "description": "Подбор, проверка, выкуп и доставка автомобилей из Германии и Европы по всей России.",<!-- if:phone_e164 -->
+  "telephone": "{{phone_e164|json}}",<!-- endif:phone_e164 -->
+  "email": "{{email|json}}",
+  "areaServed": "RU"
+}
+</script>
+<!-- endenv:prod -->
+</head>
+<body>
+<!-- include:header -->
+<main id="main">
+
+  <!-- 1. ПЕРВЫЙ ЭКРАН -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container hero__grid">
+      <div class="hero__text">
+        <h1 class="hero__title" id="hero-title">Авто из Германии и Европы — с полной проверкой и фиксированной ценой</h1>
+        <p class="hero__lead">Подберём автомобиль под ваш запрос, проверим до покупки и доставим автовозом в любой город России.</p>
+        <p class="hero__proof">Более 1 200 автомобилей привезено за 9 лет работы</p>
+        <a class="btn btn--primary hero__cta" href="#form" data-cta="hero">Получить варианты</a>
+        <ul class="hero__facts">
+          <li class="hero__fact">
+            <svg class="hero__icon" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7.25"/><path d="M10 6v4.25l2.75 1.75"/></svg>
+            <span>Средний срок доставки после выкупа — 15–25 дней</span>
+          </li>
+          <li class="hero__fact">
+            <svg class="hero__icon" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2.75h6.5L15 6.25v11H5z"/><path d="M11.25 2.75v3.75H15M7.75 10.5h4.5M7.75 13.5h3"/></svg>
+            <span>Цена фиксируется в договоре</span>
+          </li>
+        </ul>
+      </div>
+      <div class="hero__media">
+        <!-- ФОТО ПЕРВОГО ЭКРАНА: src/assets/img/raw/hero.jpg (от 1920 px по ширине, авто целиком, без людей),
+             затем scripts/optimize_images.py и scripts/build.py. Подробно: CONTENT_TO_REPLACE.md -->
+        <!-- img:hero alt="Автомобиль из Европы под заказ, доставленный клиенту в Россию" sizes="(min-width: 1024px) 50vw, 100vw" ph="hero" ratio="4:3" eager class="hero__img" -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. ФОРМА ПОДБОРА -->
+  <section class="lead" id="form" aria-labelledby="form-title">
+    <div class="container lead__grid">
+      <div class="lead__intro">
+        <h2 class="lead__title" id="form-title">Получите подходящие варианты</h2>
+        <p class="lead__text">Оставьте основные параметры. Остальные детали менеджер уточнит лично.</p>
+      </div>
+
+      <div class="lead__panel">
+        <form class="form" id="lead-form" action="{{form_action}}" method="{{form_method}}" data-mode="{{form_mode}}" accept-charset="UTF-8">
+          <div class="form__grid">
+
+            <div class="field form__cell">
+              <label class="field__label" for="f-name">Имя</label>
+              <input class="field__input" id="f-name" name="name" type="text" autocomplete="given-name" autocapitalize="words" enterkeyhint="next" required minlength="2" maxlength="60" aria-describedby="f-name-error">
+              <p class="field__error" id="f-name-error"></p>
+            </div>
+
+            <div class="field form__cell">
+              <label class="field__label" for="f-car">Марка и модель</label>
+              <input class="field__input" id="f-car" name="car" type="text" autocomplete="off" autocapitalize="words" spellcheck="false" enterkeyhint="next" required minlength="2" maxlength="80" placeholder="например, Volkswagen Tiguan" aria-describedby="f-car-error">
+              <p class="field__error" id="f-car-error"></p>
+            </div>
+
+            <fieldset class="field fieldset form__cell">
+              <legend class="field__label">Год выпуска</legend>
+              <div class="pair">
+                <div class="affix">
+                  <label class="affix__prefix" for="f-year-from"><span class="vh">Год выпуска </span>от</label>
+                  <select class="field__input field__select field__input--prefixed" id="f-year-from" name="year_from" required aria-describedby="f-years-error">
+                    <option value="">—</option>
+                    {{year_options}}
+                  </select>
+                </div>
+                <div class="affix">
+                  <label class="affix__prefix" for="f-year-to"><span class="vh">Год выпуска </span>до</label>
+                  <select class="field__input field__select field__input--prefixed" id="f-year-to" name="year_to" required aria-describedby="f-years-error">
+                    <option value="">—</option>
+                    {{year_options}}
+                  </select>
+                </div>
+              </div>
+              <p class="field__error" id="f-years-error"></p>
+            </fieldset>
+
+            <fieldset class="field fieldset form__cell">
+              <legend class="field__label">Пробег <span class="field__hint">необязательно</span></legend>
+              <div class="pair">
+                <div class="affix">
+                  <label class="affix__prefix" for="f-mileage-from"><span class="vh">Пробег в километрах </span>от</label>
+                  <input class="field__input field__input--prefixed field__input--suffixed" id="f-mileage-from" name="mileage_from" type="text" inputmode="numeric" pattern="[0-9 ]*" maxlength="9" autocomplete="off" enterkeyhint="next" aria-describedby="f-mileage-error">
+                  <span class="affix__suffix" aria-hidden="true">км</span>
+                </div>
+                <div class="affix">
+                  <label class="affix__prefix" for="f-mileage-to"><span class="vh">Пробег в километрах </span>до</label>
+                  <input class="field__input field__input--prefixed field__input--suffixed" id="f-mileage-to" name="mileage_to" type="text" inputmode="numeric" pattern="[0-9 ]*" maxlength="9" autocomplete="off" enterkeyhint="next" aria-describedby="f-mileage-error">
+                  <span class="affix__suffix" aria-hidden="true">км</span>
+                </div>
+              </div>
+              <p class="field__error" id="f-mileage-error"></p>
+            </fieldset>
+
+            <div class="field form__cell form__cell--wide">
+              <label class="field__label" for="f-contact" id="f-contact-label">Telegram или WhatsApp для связи</label>
+              <input class="field__input" id="f-contact" name="contact" type="text" autocomplete="tel" autocapitalize="off" spellcheck="false" enterkeyhint="send" required maxlength="64" placeholder="+7 999 123-45-67 или @username" aria-describedby="f-contact-error">
+              <p class="field__error" id="f-contact-error"></p>
+            </div>
+
+            <fieldset class="field fieldset form__cell form__cell--wide">
+              <legend class="field__label">Как удобнее связаться?</legend>
+              <div class="choice">
+                <label class="choice__item">
+                  <input class="choice__input" type="radio" name="contact_method" value="messenger" checked>
+                  <span class="choice__box"><span class="choice__mark" aria-hidden="true"></span>Написать в мессенджер</span>
+                </label>
+                <label class="choice__item">
+                  <input class="choice__input" type="radio" name="contact_method" value="call">
+                  <span class="choice__box"><span class="choice__mark" aria-hidden="true"></span>Позвонить</span>
+                </label>
+              </div>
+            </fieldset>
+          </div>
+
+          <!-- скрытые поля: источник заявки (заполняет main.js) -->
+          <input type="hidden" name="utm_source" value="">
+          <input type="hidden" name="utm_medium" value="">
+          <input type="hidden" name="utm_campaign" value="">
+          <input type="hidden" name="utm_content" value="">
+          <input type="hidden" name="utm_term" value="">
+          <input type="hidden" name="yclid" value="">
+          <input type="hidden" name="referrer" value="">
+          <input type="hidden" name="landing_url" value="">
+          <input type="hidden" name="form_ts" value="">
+          <!-- ловушка для ботов: человек это поле не видит -->
+          <div class="form__trap" aria-hidden="true">
+            <label for="f-company-site">Сайт компании</label>
+            <input id="f-company-site" type="text" name="company_site" value="" tabindex="-1" autocomplete="off">
+          </div>
+
+          <div class="form__submit">
+            <button class="btn btn--primary btn--block form__button" type="submit" data-cta="form">Получить варианты</button>
+            <!-- if:consent_checkbox -->
+            <div class="consent">
+              <label class="check" for="f-consent">
+                <input class="check__input" id="f-consent" type="checkbox" name="consent" value="1" required aria-describedby="f-consent-error">
+                <span class="check__box" aria-hidden="true"><svg viewBox="0 0 14 14" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.25 5.5 10.25 11.5 3.75"/></svg></span>
+                <span class="check__text">Согласен на обработку <a href="consent/" target="_blank" rel="noopener">персональных данных</a></span>
+              </label>
+              <p class="field__error" id="f-consent-error"></p>
+              <p class="consent__policy"><a href="privacy/" target="_blank" rel="noopener">Политика конфиденциальности</a></p>
+            </div>
+            <!-- endif:consent_checkbox -->
+            <!-- if:consent_text -->
+            <p class="consent__note">Нажимая кнопку, вы соглашаетесь на <a href="consent/" target="_blank" rel="noopener">обработку персональных данных</a> и с <a href="privacy/" target="_blank" rel="noopener">политикой конфиденциальности</a>.</p>
+            <!-- endif:consent_text -->
+          </div>
+
+          <div class="form__alert" id="form-alert" role="alert" hidden>
+            <p>Не получилось отправить заявку. Попробуйте ещё раз или свяжитесь с нами:</p>
+            <ul class="form__alert-links">
+              <li><a href="tel:{{phone_e164}}" data-goal="phone_click" data-where="form_error">{{phone_display}}</a></li>
+              <!-- if:whatsapp_url --><li><a href="{{whatsapp_url}}" target="_blank" rel="noopener" data-goal="messenger_click" data-where="form_error">WhatsApp</a></li><!-- endif:whatsapp_url -->
+              <!-- if:telegram_contact_url --><li><a href="{{telegram_contact_url}}" target="_blank" rel="noopener" data-goal="messenger_click" data-where="form_error">Telegram</a></li><!-- endif:telegram_contact_url -->
+            </ul>
+          </div>
+        </form>
+
+        <p class="vh" id="form-status" role="status" aria-live="polite"></p>
+
+        <div class="done" id="form-done" tabindex="-1" hidden>
+          <svg class="done__icon" viewBox="0 0 40 40" width="40" height="40" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="20" cy="20" r="18"/><path d="m12.5 20.5 5 5 10-11"/></svg>
+          <p class="done__title">Спасибо! Заявка получена.</p>
+          <p class="done__text">Менеджер M-AUTO свяжется с вами.</p>
+          <!-- if:telegram_catalog_url -->
+          <a class="btn btn--secondary done__link" href="{{telegram_catalog_url}}" target="_blank" rel="noopener" data-goal="tg_catalog_click" data-where="form_success">Смотреть актуальные авто в Telegram</a>
+          <!-- endif:telegram_catalog_url -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. ДОВЕРИЕ -->
+  <section class="trust" aria-labelledby="trust-title">
+    <div class="container">
+      <h2 class="vh" id="trust-title">M-AUTO в цифрах</h2>
+      <ul class="trust__list">
+        <li class="trust__item"><span class="trust__value">9 лет</span> <span class="trust__label">опыта</span></li>
+        <li class="trust__item"><span class="trust__value">1 200+</span> <span class="trust__label">привезённых автомобилей</span></li>
+        <li class="trust__item"><span class="trust__value">15–25 дней</span> <span class="trust__label">средний срок доставки после выкупа</span></li>
+        <li class="trust__item"><span class="trust__value">По всей России</span> <span class="trust__label">доставка автовозами</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- if:promo_enabled -->
+  <!-- 4. АКЦИЯ: показ включается флагом promo_enabled в site.config.json -->
+  <section class="promo" aria-labelledby="promo-title">
+    <div class="container">
+      <div class="promo__panel">
+        <div class="promo__text">
+          <h2 class="promo__title" id="promo-title">Подбор автомобиля — бесплатно до конца месяца</h2>
+          <p class="promo__note">Вы оплачиваете только фактические выезды специалистов на проверку выбранных автомобилей.</p>
+        </div>
+        <a class="btn btn--primary promo__cta" href="#form" data-cta="promo">Получить варианты</a>
+      </div>
+    </div>
+  </section>
+  <!-- endif:promo_enabled -->
+
+  <!-- 5. АВТОМОБИЛИ, КОТОРЫЕ УЖЕ ПРИВЕЗЛИ -->
+  <section class="cases" aria-labelledby="cases-title">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="section-title" id="cases-title">Автомобили, которые мы уже привезли клиентам</h2>
+        <p class="section-lead">От популярных семейных моделей до премиальных и редких автомобилей.</p>
+      </div>
+      <ul class="cases__list">
+        <!-- КЕЙС 1. Заменить: фото src/assets/img/raw/case-1.jpg, марку и модель, alt, год, срок, цену. Потом удалить data-placeholder у li. -->
+        <li class="case" data-placeholder="case-1">
+          <div class="case__media"><!-- img:case-1 alt="Компактный хэтчбек, привезённый из Европы под заказ" sizes="(min-width: 1024px) 384px, (min-width: 768px) 50vw, 40vw" ph="car-hatch" ratio="4:3" class="case__img" --></div>
+          <div class="case__body">
+            <h3 class="case__title">Компактный хэтчбек</h3>
+            <dl class="case__facts">
+              <div><dt>Год</dt><dd>20XX</dd></div>
+              <div><dt>Срок доставки</dt><dd>XX дней</dd></div>
+            </dl>
+            <p class="case__price">X XXX XXX ₽ под ключ</p>
+          </div>
+        </li>
+        <!-- КЕЙС 2. Заменить: фото case-2.jpg, марку и модель, alt, год, срок, цену. Потом удалить data-placeholder. -->
+        <li class="case" data-placeholder="case-2">
+          <div class="case__media"><!-- img:case-2 alt="Семейный кроссовер из Германии, доставленный клиенту в Россию" sizes="(min-width: 1024px) 384px, (min-width: 768px) 50vw, 40vw" ph="car-crossover" ratio="4:3" class="case__img" --></div>
+          <div class="case__body">
+            <h3 class="case__title">Семейный кроссовер</h3>
+            <dl class="case__facts">
+              <div><dt>Год</dt><dd>20XX</dd></div>
+              <div><dt>Срок доставки</dt><dd>XX дней</dd></div>
+            </dl>
+            <p class="case__price">X XXX XXX ₽ под ключ</p>
+          </div>
+        </li>
+        <!-- КЕЙС 3. Заменить: фото case-3.jpg, марку и модель, alt, год, срок, цену. Потом удалить data-placeholder. -->
+        <li class="case" data-placeholder="case-3">
+          <div class="case__media"><!-- img:case-3 alt="Бизнес-седан, пригнанный из Европы" sizes="(min-width: 1024px) 384px, (min-width: 768px) 50vw, 40vw" ph="car-sedan" ratio="4:3" class="case__img" --></div>
+          <div class="case__body">
+            <h3 class="case__title">Бизнес-седан</h3>
+            <dl class="case__facts">
+              <div><dt>Год</dt><dd>20XX</dd></div>
+              <div><dt>Срок доставки</dt><dd>XX дней</dd></div>
+            </dl>
+            <p class="case__price">X XXX XXX ₽ под ключ</p>
+          </div>
+        </li>
+        <!-- КЕЙС 4. Заменить: фото case-4.jpg, марку и модель, alt, год, срок, цену. Потом удалить data-placeholder. -->
+        <li class="case" data-placeholder="case-4">
+          <div class="case__media"><!-- img:case-4 alt="Универсал из Европы после проверки и доставки" sizes="(min-width: 1024px) 384px, (min-width: 768px) 50vw, 40vw" ph="car-wagon" ratio="4:3" class="case__img" --></div>
+          <div class="case__body">
+            <h3 class="case__title">Универсал</h3>
+            <dl class="case__facts">
+              <div><dt>Год</dt><dd>20XX</dd></div>
+              <div><dt>Срок доставки</dt><dd>XX дней</dd></div>
+            </dl>
+            <p class="case__price">X XXX XXX ₽ под ключ</p>
+          </div>
+        </li>
+        <!-- КЕЙС 5. Заменить: фото case-5.jpg, марку и модель, alt, год, срок, цену. Потом удалить data-placeholder. -->
+        <li class="case" data-placeholder="case-5">
+          <div class="case__media"><!-- img:case-5 alt="Премиальный внедорожник из Германии под заказ" sizes="(min-width: 1024px) 384px, (min-width: 768px) 50vw, 40vw" ph="car-suv" ratio="4:3" class="case__img" --></div>
+          <div class="case__body">
+            <h3 class="case__title">Премиальный внедорожник</h3>
+            <dl class="case__facts">
+              <div><dt>Год</dt><dd>20XX</dd></div>
+              <div><dt>Срок доставки</dt><dd>XX дней</dd></div>
+            </dl>
+            <p class="case__price">X XXX XXX ₽ под ключ</p>
+          </div>
+        </li>
+        <!-- КЕЙС 6. Заменить: фото case-6.jpg, марку и модель, alt, год, срок, цену. Потом удалить data-placeholder. -->
+        <li class="case" data-placeholder="case-6">
+          <div class="case__media"><!-- img:case-6 alt="Электромобиль, доставленный из Европы в Россию" sizes="(min-width: 1024px) 384px, (min-width: 768px) 50vw, 40vw" ph="car-ev" ratio="4:3" class="case__img" --></div>
+          <div class="case__body">
+            <h3 class="case__title">Электромобиль</h3>
+            <dl class="case__facts">
+              <div><dt>Год</dt><dd>20XX</dd></div>
+              <div><dt>Срок доставки</dt><dd>XX дней</dd></div>
+            </dl>
+            <p class="case__price">X XXX XXX ₽ под ключ</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 6. ПРОВЕРКА АВТОМОБИЛЯ: оформлено как лист осмотра -->
+  <section class="inspect" aria-labelledby="inspect-title">
+    <div class="container inspect__grid">
+      <div class="inspect__intro">
+        <h2 class="section-title" id="inspect-title">Проверяем автомобиль до покупки</h2>
+        <p class="section-lead">Мы не просто находим автомобиль по объявлению. Перед выкупом проверяем его историю и реальное техническое состояние.</p>
+      </div>
+      <ul class="sheet">
+        <li class="sheet__row"><span>VIN-история</span><span class="sheet__mark" aria-hidden="true"><svg viewBox="0 0 14 14" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.25 5.5 10.25 11.5 3.75"/></svg></span></li>
+        <li class="sheet__row"><span>Страховая история</span><span class="sheet__mark" aria-hidden="true"><svg viewBox="0 0 14 14" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.25 5.5 10.25 11.5 3.75"/></svg></span></li>
+        <li class="sheet__row"><span>Сервисная история</span><span class="sheet__mark" aria-hidden="true"><svg viewBox="0 0 14 14" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.25 5.5 10.25 11.5 3.75"/></svg></span></li>
+        <li class="sheet__row"><span>Видеоосмотр автомобиля</span><span class="sheet__mark" aria-hidden="true"><svg viewBox="0 0 14 14" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.25 5.5 10.25 11.5 3.75"/></svg></span></li>
+        <li class="sheet__row"><span>Проверка лакокрасочного покрытия</span><span class="sheet__mark" aria-hidden="true"><svg viewBox="0 0 14 14" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.25 5.5 10.25 11.5 3.75"/></svg></span></li>
+        <li class="sheet__row"><span>Компьютерная диагностика современным оборудованием Launch</span><span class="sheet__mark" aria-hidden="true"><svg viewBox="0 0 14 14" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.25 5.5 10.25 11.5 3.75"/></svg></span></li>
+        <li class="sheet__row"><span>Полная проверка на профильном СТО — по запросу клиента</span><span class="sheet__mark sheet__mark--optional" aria-hidden="true"></span></li>
+      </ul>
+      <div class="inspect__outro">
+        <p class="inspect__note">Если обнаруживаем устранимые нюансы — обсуждаем снижение цены или их устранение. Если состояние автомобиля нас не устраивает — отказываемся от варианта и продолжаем подбор.</p>
+        <a class="btn btn--primary inspect__cta" href="#form" data-cta="inspection">Получить варианты</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. ФИКСИРОВАННАЯ ЦЕНА: главный визуальный акцент страницы -->
+  <section class="price" aria-labelledby="price-title">
+    <div class="container price__grid">
+      <h2 class="price__title" id="price-title">Цена фиксируется в договоре</h2>
+      <div class="price__body">
+        <p class="price__statement">Согласованная стоимость не меняется в процессе доставки.</p>
+        <p class="price__note">Клиент заранее понимает итоговую стоимость автомобиля и не получает неожиданных доплат после начала сделки.</p>
+      </div>
+      <p class="price__quote">Зафиксировали цену — дальше вы спокойно ждёте автомобиль.</p>
+    </div>
+  </section>
+
+  <!-- 8. ПОЭТАПНАЯ ОПЛАТА -->
+  <section class="pay" aria-labelledby="pay-title">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="section-title" id="pay-title">Не нужно оплачивать всё сразу</h2>
+      </div>
+      <ol class="pay__steps">
+        <li class="pay__step pay__step--start">
+          <span class="pay__num">01</span>
+          <h3 class="pay__title"><span class="pay__figure">25%</span> аванс</h3>
+          <p class="pay__text">После выбора автомобиля и заключения договора.</p>
+        </li>
+        <li class="pay__step">
+          <span class="pay__num">02</span>
+          <h3 class="pay__title">Логистика и оформление</h3>
+          <p class="pay__text">Оплата производится по согласованному графику.</p>
+        </li>
+        <li class="pay__step">
+          <span class="pay__num">03</span>
+          <h3 class="pay__title">Финальный расчёт</h3>
+          <p class="pay__text">После получения автомобиля и постановки на учёт.</p>
+        </li>
+      </ol>
+      <p class="pay__note">Возможна оплата в рублях и валюте — доступный способ согласовывается индивидуально.</p>
+    </div>
+  </section>
+
+  <!-- 9. ОТВЕТСТВЕННОСТЬ ЗА ПРОВЕРКУ -->
+  <section class="resp" aria-labelledby="resp-title">
+    <div class="container">
+      <div class="resp__grid">
+        <h2 class="section-title" id="resp-title">Мы уверены в автомобилях, которые рекомендуем</h2>
+        <div class="resp__body">
+          <p>После получения автомобиля клиент может провести дополнительные проверки. Мы отвечаем за качество подбора и достоверность проведённой проверки в рамках условий договора.</p>
+          <p class="resp__accent">Наша задача — не просто привезти автомобиль, а сделать так, чтобы после получения клиента не ждали неприятные сюрпризы.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. ОТЗЫВЫ. Только реальные материалы с согласия клиентов: имена и истории не выдумывать. -->
+  <section class="reviews" aria-labelledby="reviews-title">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="section-title" id="reviews-title">Что говорят клиенты M-AUTO</h2>
+      </div>
+      <ul class="reviews__photos">
+        <!-- ФОТО КЛИЕНТА 1: src/assets/img/raw/client-1.jpg (3:2, от 1600 px). Подпись: имя, город, модель или удалить. Потом удалить data-placeholder. -->
+        <li class="shot" data-placeholder="client-1">
+          <figure>
+            <div class="shot__media"><!-- img:client-1 alt="Клиент M-AUTO с автомобилем, привезённым из Европы" sizes="(min-width: 1024px) 384px, (min-width: 480px) 50vw, 100vw" ph="client" ratio="3:2" class="shot__img" --></div>
+            <figcaption class="shot__caption">Фото клиента с автомобилем</figcaption>
+          </figure>
+        </li>
+        <!-- ФОТО КЛИЕНТА 2: client-2.jpg (3:2). Потом удалить data-placeholder. -->
+        <li class="shot" data-placeholder="client-2">
+          <figure>
+            <div class="shot__media"><!-- img:client-2 alt="Клиент M-AUTO получил автомобиль из Германии" sizes="(min-width: 1024px) 384px, 50vw" ph="client" ratio="3:2" class="shot__img" --></div>
+            <figcaption class="shot__caption">Фото клиента с автомобилем</figcaption>
+          </figure>
+        </li>
+        <!-- ФОТО КЛИЕНТА 3: client-3.jpg (3:2). Если третьего фото нет, удалите этот li целиком. -->
+        <li class="shot" data-placeholder="client-3">
+          <figure>
+            <div class="shot__media"><!-- img:client-3 alt="Клиент M-AUTO с автомобилем после доставки из Европы в Россию" sizes="(min-width: 1024px) 384px, 50vw" ph="client" ratio="3:2" class="shot__img" --></div>
+            <figcaption class="shot__caption">Фото клиента с автомобилем</figcaption>
+          </figure>
+        </li>
+      </ul>
+      <ul class="reviews__list">
+        <!-- ОТЗЫВ 1: 2–4 предложения клиента как есть, без правки в рекламный тон. Имя и город с согласия клиента. Потом удалить data-placeholder. -->
+        <li class="review" data-placeholder="review-1">
+          <blockquote class="review__text"><p>Здесь будет отзыв клиента: 2–4 предложения о подборе, проверке и получении машины</p></blockquote>
+          <p class="review__author">Имя, город</p>
+        </li>
+        <!-- ОТЗЫВ 2 -->
+        <li class="review" data-placeholder="review-2">
+          <blockquote class="review__text"><p>Здесь будет отзыв клиента: 2–4 предложения о подборе, проверке и получении машины</p></blockquote>
+          <p class="review__author">Имя, город</p>
+        </li>
+        <!-- ОТЗЫВ 3 -->
+        <li class="review" data-placeholder="review-3">
+          <blockquote class="review__text"><p>Здесь будет отзыв клиента: 2–4 предложения о подборе, проверке и получении машины</p></blockquote>
+          <p class="review__author">Имя, город</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 11. ФИНАЛЬНЫЙ CTA: кнопка ведёт к той же форме (без модалки) -->
+  <section class="final" aria-labelledby="final-title">
+    <div class="container">
+      <h2 class="final__title" id="final-title">Расскажите, какой автомобиль вы ищете</h2>
+      <p class="final__text">Мы посмотрим доступные варианты в Германии и Европе и свяжемся с вами.</p>
+      <a class="btn btn--primary final__cta" href="#form" data-cta="final">Получить варианты</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- include:footer -->
+
+<!-- липкая кнопка на мобиле: показывает main.js -->
+<div class="sticky-cta" id="sticky-cta">
+  <a class="btn btn--primary btn--block" href="#form" data-cta="sticky">Получить варианты</a>
+</div>
+</body>
+</html>
