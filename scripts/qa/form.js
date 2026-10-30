@@ -74,7 +74,8 @@ const ok = (cond, msg) => { console.log(`${cond ? 'OK  ' : 'FAIL'} ${msg}`); if 
   ok(await page.$eval('.form__button', (b) => b.disabled && b.textContent === 'Отправляем…'), 'состояние «Отправляем…», кнопка заблокирована');
   await page.waitForTimeout(900);
   ok(await page.$eval('#form-done', (e) => !e.hidden) && await page.$eval('#lead-form', (e) => e.hidden), 'панель успеха вместо формы');
-  ok(await page.$('#form-done .done__link') !== null, 'кнопка Telegram-каталога есть в панели успеха');
+  const catalogLinks = await page.$$eval('a', (as) => as.filter((a) => /актуальные авто/i.test(a.textContent)).map((a) => !!a.closest('#form-done')));
+  ok(catalogLinks.every(Boolean), `кнопка Telegram-каталога только в панели успеха (найдено: ${catalogLinks.length}, без ссылки в конфиге её нет)`);
   const payload = logs.find((l) => l.includes('[демо]'));
   ok(!!payload, 'демо-режим пишет payload в консоль');
   ok(logs.some((l) => l.includes('lead_success')), 'цель lead_success');

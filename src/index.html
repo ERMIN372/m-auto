@@ -23,13 +23,13 @@
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "M-AUTO",
-  "legalName": "{{legal_name|json}}",
-  "url": "{{site_url|json}}/",
+<!-- if:legal_name -->  "legalName": "{{legal_name|json}}",
+<!-- endif:legal_name -->  "url": "{{site_url|json}}/",
   "logo": "{{site_url|json}}/apple-touch-icon.png",
   "description": "Подбор, проверка, выкуп и доставка автомобилей из Германии и Европы по всей России.",<!-- if:phone_e164 -->
   "telephone": "{{phone_e164|json}}",<!-- endif:phone_e164 -->
-  "email": "{{email|json}}",
-  "areaServed": "RU"
+<!-- if:email -->  "email": "{{email|json}}",
+<!-- endif:email -->  "areaServed": "RU"
 }
 </script>
 <!-- endenv:prod -->
@@ -241,79 +241,9 @@
         <h2 class="section-title" id="cases-title">Автомобили, которые мы уже привезли клиентам</h2>
         <p class="section-lead">От популярных семейных моделей до премиальных и редких автомобилей.</p>
       </div>
+      <!-- Карточки собирает build.py из content/cases.json, шаблон одной карточки: src/_partials/case.html -->
       <ul class="cases__list">
-        <!-- КЕЙС 1. Заменить: фото src/assets/img/raw/case-1.jpg, марку и модель, alt, год, срок, цену. Потом удалить data-placeholder у li. -->
-        <li class="case" data-placeholder="case-1">
-          <div class="case__media"><!-- img:case-1 alt="Универсал Opel Astra" sizes="(min-width: 1024px) 384px, (min-width: 768px) 50vw, 40vw" ph="car-wagon" ratio="4:3" class="case__img" --></div>
-          <div class="case__body">
-            <h3 class="case__title">Универсал</h3>
-            <dl class="case__facts">
-              <div><dt>Год</dt><dd>20XX</dd></div>
-              <div><dt>Срок доставки</dt><dd>XX дней</dd></div>
-            </dl>
-            <p class="case__price">X XXX XXX ₽ под ключ</p>
-          </div>
-        </li>
-        <!-- КЕЙС 2. Заменить: фото case-2.jpg, марку и модель, alt, год, срок, цену. Потом удалить data-placeholder. -->
-        <li class="case" data-placeholder="case-2">
-          <div class="case__media"><!-- img:case-2 alt="Компактный хэтчбек Volkswagen Golf" sizes="(min-width: 1024px) 384px, (min-width: 768px) 50vw, 40vw" ph="car-hatch" ratio="4:3" class="case__img" --></div>
-          <div class="case__body">
-            <h3 class="case__title">Компактный хэтчбек</h3>
-            <dl class="case__facts">
-              <div><dt>Год</dt><dd>20XX</dd></div>
-              <div><dt>Срок доставки</dt><dd>XX дней</dd></div>
-            </dl>
-            <p class="case__price">X XXX XXX ₽ под ключ</p>
-          </div>
-        </li>
-        <!-- КЕЙС 3. Заменить: фото case-3.jpg, марку и модель, alt, год, срок, цену. Потом удалить data-placeholder. -->
-        <li class="case" data-placeholder="case-3">
-          <div class="case__media"><!-- img:case-3 alt="Семейный кроссовер Volkswagen Tiguan" sizes="(min-width: 1024px) 384px, (min-width: 768px) 50vw, 40vw" ph="car-crossover" ratio="4:3" class="case__img" --></div>
-          <div class="case__body">
-            <h3 class="case__title">Семейный кроссовер</h3>
-            <dl class="case__facts">
-              <div><dt>Год</dt><dd>20XX</dd></div>
-              <div><dt>Срок доставки</dt><dd>XX дней</dd></div>
-            </dl>
-            <p class="case__price">X XXX XXX ₽ под ключ</p>
-          </div>
-        </li>
-        <!-- КЕЙС 4. Заменить: фото case-4.jpg, марку и модель, alt, год, срок, цену. Потом удалить data-placeholder. -->
-        <li class="case" data-placeholder="case-4">
-          <div class="case__media"><!-- img:case-4 alt="Электромобиль Tesla Model 3" sizes="(min-width: 1024px) 384px, (min-width: 768px) 50vw, 40vw" ph="car-ev" ratio="4:3" class="case__img" --></div>
-          <div class="case__body">
-            <h3 class="case__title">Электромобиль</h3>
-            <dl class="case__facts">
-              <div><dt>Год</dt><dd>20XX</dd></div>
-              <div><dt>Срок доставки</dt><dd>XX дней</dd></div>
-            </dl>
-            <p class="case__price">X XXX XXX ₽ под ключ</p>
-          </div>
-        </li>
-        <!-- КЕЙС 5. Заменить: фото case-5.jpg, марку и модель, alt, год, срок, цену. Потом удалить data-placeholder. -->
-        <li class="case" data-placeholder="case-5">
-          <div class="case__media"><!-- img:case-5 alt="Бизнес-седан Audi A5 Sportback" sizes="(min-width: 1024px) 384px, (min-width: 768px) 50vw, 40vw" ph="car-sedan" ratio="4:3" class="case__img" --></div>
-          <div class="case__body">
-            <h3 class="case__title">Бизнес-седан</h3>
-            <dl class="case__facts">
-              <div><dt>Год</dt><dd>20XX</dd></div>
-              <div><dt>Срок доставки</dt><dd>XX дней</dd></div>
-            </dl>
-            <p class="case__price">X XXX XXX ₽ под ключ</p>
-          </div>
-        </li>
-        <!-- КЕЙС 6. Заменить: фото case-6.jpg, марку и модель, alt, год, срок, цену. Потом удалить data-placeholder. -->
-        <li class="case" data-placeholder="case-6">
-          <div class="case__media"><!-- img:case-6 alt="Бизнес-кроссовер BMW X3" sizes="(min-width: 1024px) 384px, (min-width: 768px) 50vw, 40vw" ph="car-suv" ratio="4:3" class="case__img" --></div>
-          <div class="case__body">
-            <h3 class="case__title">Бизнес-кроссовер</h3>
-            <dl class="case__facts">
-              <div><dt>Год</dt><dd>20XX</dd></div>
-              <div><dt>Срок доставки</dt><dd>XX дней</dd></div>
-            </dl>
-            <p class="case__price">X XXX XXX ₽ под ключ</p>
-          </div>
-        </li>
+        <!-- cases -->
       </ul>
     </div>
   </section>
@@ -423,22 +353,24 @@
         </li>
       </ul>
       <ul class="reviews__list">
-        <!-- ОТЗЫВ 1: 2–4 предложения клиента как есть, без правки в рекламный тон. Имя и город с согласия клиента. Потом удалить data-placeholder. -->
+        <!-- ОТЗЫВ 1. Сейчас ПРИМЕРЫ ФОРМАТА, а не отзывы клиентов: в prod не соберётся, пока стоит data-placeholder.
+             Заменить на реальный отзыв (2–4 предложения как есть), имя и город с согласия клиента, потом удалить data-placeholder. -->
         <li class="review" data-placeholder="review-1">
-          <blockquote class="review__text"><p>Здесь будет отзыв клиента: 2–4 предложения о подборе, проверке и получении машины</p></blockquote>
+          <blockquote class="review__text"><p>Хотел семейный кроссовер, но боялся связываться с машиной из-за границы. Прислали несколько вариантов, по выбранному сделали видеоосмотр и диагностику. Цена была зафиксирована в договоре, после получения ничего доплачивать не пришлось.</p></blockquote>
           <p class="review__author">Имя, город</p>
         </li>
         <!-- ОТЗЫВ 2 -->
         <li class="review" data-placeholder="review-2">
-          <blockquote class="review__text"><p>Здесь будет отзыв клиента: 2–4 предложения о подборе, проверке и получении машины</p></blockquote>
+          <blockquote class="review__text"><p>Первый вариант забраковали сами: по истории нашли ДТП, о котором продавец не написал. Второй проверили на СТО, всё сошлось с описанием. Машину привезли автовозом, на учёт поставил без проблем.</p></blockquote>
           <p class="review__author">Имя, город</p>
         </li>
         <!-- ОТЗЫВ 3 -->
         <li class="review" data-placeholder="review-3">
-          <blockquote class="review__text"><p>Здесь будет отзыв клиента: 2–4 предложения о подборе, проверке и получении машины</p></blockquote>
+          <blockquote class="review__text"><p>Понравилось, что не нужно было платить всё сразу: аванс, потом логистика, остальное после постановки на учёт. Менеджер был на связи в Telegram на каждом этапе и отвечал быстро.</p></blockquote>
           <p class="review__author">Имя, город</p>
         </li>
       </ul>
+      <!-- env:preview --><p class="reviews__note">Тексты отзывов здесь примеры формата для согласования. На сайте будут только реальные отзывы клиентов M-AUTO.</p><!-- endenv:preview -->
     </div>
   </section>
 

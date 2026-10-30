@@ -30,13 +30,25 @@ API = "http://127.0.0.1:8080/api/send.php"
 STUB_PORT = 8099
 
 received: list[dict] = []
-stub_mode = {"fail": False}
+stub_mode = {"fail": False, "hook_fail": False}
+RATE_MAX = 11
 failed = 0
 
 
 class Stub(BaseHTTPRequestHandler):
     def do_POST(self):  # noqa: N802
         body = self.rfile.read(int(self.headers.get("Content-Length", 0))).decode()
+        if self.path == "/hook":
+            if stub_mode["hook_fail"]:
+                self.send_response(500)
+                self.end_headers()
+                return
+            received.append({"path": "/hook", "json": json.loads(body),
+                             "content_type": self.headers.get("Content-Type", "")})
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(b"ok")
+            return
         data = {k: v[0] for k, v in urllib.parse.parse_qs(body).items()}
         if stub_mode["fail"]:
             self.send_response(502)
@@ -104,18 +116,21 @@ def main() -> int:
         return 1
     storage = Path(tempfile.mkdtemp(prefix="mauto-storage-"))
     config = DIST / "api/config.php"
-    config.write_text(f"""<?php
+    def write_config(extra: str = "") -> None:
+        config.write_text(f"""<?php
 return [
   'bot_token' => 'TEST',
   'chat_ids' => ['-100123', '42'],
   'lead_email' => '',
   'storage_dir' => '{storage}',
   'site_host' => 'example.ru',
-  'rate_limit' => ['max' => 8, 'window_sec' => 600],
+  'rate_limit' => ['max' => {RATE_MAX}, 'window_sec' => 600],
   'min_fill_sec' => 3,
   'tg_api_base' => 'http://127.0.0.1:{STUB_PORT}',
-];
+{extra}];
 """, encoding="utf-8")
+
+    write_config()
 
     stub = ThreadingHTTPServer(("127.0.0.1", STUB_PORT), Stub)
     threading.Thread(target=stub.serve_forever, daemon=True).start()
@@ -209,16 +224,53 @@ return [
         check("не ушла в Telegram" in log and "Без телеграма" in rows, "ошибка в errors.log, заявка в CSV")
         check("Без телеграма" not in log, "в errors.log нет персональных данных")
 
+        # webhook (ApiX-Drive): вместе с Telegram
+        hook = f"  'webhook_url' => 'http://127.0.0.1:{STUB_PORT}/hook',\n"
+        write_config(hook)
+        received.clear()
+        code, _, _ = post(lead(name="Вебхук", contact="@hook_user"))
+        valid += 1
+        hooks = [r for r in received if r["path"] == "/hook"]
+        tg = [r for r in received if r["path"] != "/hook"]
+        check(code == 200 and len(hooks) == 1 and len(tg) == 2, f"webhook + Telegram: 1 POST на webhook и 2 в чаты ({len(hooks)}, {len(tg)})")
+        if hooks:
+            j = hooks[0]["json"]
+            check(hooks[0]["content_type"].startswith("application/json"), "webhook получает JSON")
+            check(j.get("name") == "Вебхук" and j.get("telegram") == "hook_user" and j.get("contact") == "@hook_user"
+                  and j.get("contact_type") == "telegram" and j.get("utm_source") == "yandex" and isinstance(j.get("id"), int),
+                  "в JSON плоские поля: имя, контакт, тип, UTM, номер заявки")
+
+        # webhook вместо Telegram
+        write_config(hook + "  'webhook_replaces_telegram' => true,\n")
+        received.clear()
+        code, _, _ = post(lead(contact="+7 999 000-11-22"))
+        valid += 1
+        hooks = [r for r in received if r["path"] == "/hook"]
+        check(code == 200 and len(hooks) == 1 and len(received) == 1, "флаг webhook_replaces_telegram: только webhook, без Telegram")
+        check(hooks and hooks[0]["json"].get("phone") == "+79990001122", "телефон в webhook в формате +7")
+
+        # webhook недоступен: заявка в CSV, посетителю успех, ошибка в логе
+        stub_mode["hook_fail"] = True
+        received.clear()
+        code, _, body = post(lead(name="Без вебхука"))
+        valid += 1
+        stub_mode["hook_fail"] = False
+        log = (storage / "errors.log").read_text(encoding="utf-8")
+        rows = (storage / f"leads-{month}.csv").read_text(encoding="utf-8-sig")
+        check(code == 200 and "не ушла на webhook" in log and "Без вебхука" in rows,
+              "webhook упал → успех, заявка в CSV, ошибка в errors.log")
+        write_config()
+
         statuses = []
         for _ in range(10):
             code, _, _ = post(lead())
             statuses.append(code)
             if code == 429:
                 break
-        check(429 in statuses and statuses.count(200) == 8 - valid, f"лимит частоты: 429 после {8} заявок ({statuses})")
+        check(429 in statuses and statuses.count(200) == RATE_MAX - valid, f"лимит частоты: 429 после {RATE_MAX} заявок ({statuses})")
 
         counter = (storage / "counter.txt").read_text().strip()
-        check(counter == str(1000 + 8), f"счётчик заявок с flock: {counter}")
+        check(counter == str(1000 + RATE_MAX), f"счётчик заявок с flock: {counter}")
     finally:
         php.terminate()
         stub.shutdown()

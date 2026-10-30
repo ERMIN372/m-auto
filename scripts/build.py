@@ -22,6 +22,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "src"
 CONFIG = ROOT / "site.config.json"
+CASES = ROOT / "content/cases.json"
 OUT_DIRS = {"preview": ROOT / "docs", "prod": ROOT / "dist"}
 
 # файлы, которые проходят через шаблонизатор (css/js/svg копируются как есть)
@@ -30,15 +31,20 @@ TEMPLATE_NAMES = {".htaccess"}
 SCAN_SUFFIXES = {".html", ".txt", ".xml"}
 
 # в prod без этих ключей сайт не собирается
-REQUIRED_PROD = [
-    "site_url", "phone_e164", "phone_display", "email",
-    "legal_name", "inn", "ogrn", "legal_address", "policy_date",
-]
+REQUIRED_PROD = ["site_url", "phone_e164", "phone_display"]
 # эти могут быть пустыми: элементы с ними вырезаются, сборка предупреждает
 OPTIONAL_PROD = [
     "whatsapp_url", "telegram_contact_url", "telegram_catalog_url",
-    "metrika_id", "yandex_verification",
+    "metrika_id", "yandex_verification", "email",
+    "legal_name", "inn", "ogrn", "legal_address", "policy_date",
 ]
+# пока юр. данных нет, в политике и согласии стоят эти пометки
+OPERATOR_PLACEHOLDERS = {
+    "legal_name": "[наименование оператора]",
+    "inn": "[ИНН]",
+    "ogrn": "[ОГРН]",
+    "legal_address": "[адрес оператора]",
+}
 URL_KEYS = ["whatsapp_url", "telegram_contact_url", "telegram_catalog_url"]
 
 # пометки заглушек: в prod их быть не должно
@@ -105,6 +111,10 @@ def make_context(cfg: dict, env: str) -> dict:
     ctx["metrika_enabled"] = "1" if env == "prod" and ctx.get("metrika_id") else ""
     # контакты для блока ошибки формы и футера: показываем, если есть хоть один
     ctx["has_messengers"] = "1" if ctx.get("whatsapp_url") or ctx.get("telegram_contact_url") else ""
+    # реквизиты оператора для документов: значение или заметная пометка
+    for key, placeholder in OPERATOR_PLACEHOLDERS.items():
+        ctx[f"op_{key}"] = ctx.get(key) or placeholder
+    ctx["policy_date_or_build"] = ctx.get("policy_date") or now.strftime("%d.%m.%Y")
     return ctx
 
 
@@ -210,6 +220,45 @@ def render_img(m, root: str, manifest: dict) -> str:
     )
 
 
+FACT_LABELS = {"year": "Год", "engine": "Двигатель", "delivery": "Срок доставки"}
+
+
+def format_rub(value) -> str:
+    return f"{int(value):,}".replace(",", " ") + " ₽ под ключ"
+
+
+def expand_cases(text: str) -> str:
+    """<!-- cases --> → карточки из content/cases.json по шаблону _partials/case.html."""
+    if "<!-- cases -->" not in text:
+        return text
+    data = json.loads(CASES.read_text(encoding="utf-8"))
+    show = data.get("show", ["year", "engine"])
+    unknown = [k for k in show if k not in FACT_LABELS]
+    if unknown:
+        raise BuildError(f"content/cases.json: show содержит неизвестные поля {unknown}")
+    template = (SRC / "_partials/case.html").read_text(encoding="utf-8").rstrip("\n")
+    cards = []
+    for i, item in enumerate(data.get("cases", []), 1):
+        for key in ("photo", "model", "year", "price_rub"):
+            if not item.get(key):
+                raise BuildError(f"content/cases.json: у карточки {i} не заполнено поле {key}")
+        facts = "".join(
+            f"<div><dt>{FACT_LABELS[k]}</dt><dd>{html.escape(str(item[k]), quote=False)}</dd></div>"
+            for k in show if item.get(k)
+        )
+        alt = item.get("alt") or f"{item['model']}, {item['year']}: авто из Европы под заказ"
+        values = {
+            "photo": str(item["photo"]),
+            "alt": str(alt).replace('"', "«"),
+            "model": html.escape(str(item["model"]), quote=False),
+            "facts": facts,
+            "price": format_rub(item["price_rub"]),
+            "placeholder_attr": f' data-placeholder="{item["photo"]}"' if item.get("placeholder") else "",
+        }
+        cards.append(re.sub(r"\[\[(\w+)\]\]", lambda m: values[m.group(1)], template))
+    return text.replace("<!-- cases -->", "\n".join(cards))
+
+
 def apply_vars(text: str, ctx: dict, rel: str) -> str:
     def repl(m):
         key, flt = m.group(1), m.group(2)
@@ -310,6 +359,7 @@ def render_file(text: str, rel: Path, env: str, ctx: dict, manifest: dict) -> st
     text = apply_env(text, env)
     text = apply_ifs(text, local)
     if rel.suffix == ".html":
+        text = expand_cases(text)
         text = IMG_RE.sub(lambda m: render_img(m, root, manifest), text)
     text = apply_vars(text, local, rel.as_posix())
     if rel.suffix == ".html":

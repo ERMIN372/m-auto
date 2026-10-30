@@ -52,7 +52,7 @@ dist/                собранный прод (генерируется, в g
 
 1. Контакты и юр. данные: секция `prod` в `site.config.json`.
 2. Фото: положить в `src/assets/img/raw/` с нужным именем → `optimize_images.py` → `build.py`.
-3. Кейсы и отзывы: прямо в `src/index.html`, блоки помечены комментариями `КЕЙС 1`, `ОТЗЫВ 1` и т.д.
+3. Кейсы: файл `content/cases.json`, карточки собирает сборка. Отзывы: прямо в `src/index.html`, блоки помечены комментариями `ОТЗЫВ 1` и т.д.
 4. Пересобрать: `python3 scripts/build.py --env preview` и `--env prod`.
 
 ## Превью на GitHub Pages
@@ -85,6 +85,23 @@ dist/                собранный прод (генерируется, в g
 - IP посетителей не сохраняется: для лимита частоты (по умолчанию 5 заявок за 10 минут) используется хэш с солью.
 - В `errors.log` нет персональных данных, только номер заявки и тип ошибки.
 - Если хостинг стоит за прокси и у всех посетителей одинаковый `REMOTE_ADDR`, лимит сработает на всех сразу. Тогда увеличьте `rate_limit.max` или уточните у хостинга, как получить реальный IP.
+
+## Webhook для ApiX-Drive (необязательно)
+
+Если заявки нужно передавать дальше (CRM, таблица, бот через ApiX-Drive), в `api/config.php`:
+
+```php
+'webhook_url' => 'https://…',          // адрес приёма данных из ApiX-Drive
+'webhook_replaces_telegram' => false,  // true: только webhook, без Telegram-бота
+```
+
+Заявка уходит туда POST-запросом в JSON, все поля плоские:
+- `id`, `created_msk`, `created_iso`, `site`;
+- `name`, `car`, `year_from`, `year_to`, `mileage_from`, `mileage_to`;
+- контакт: `contact`, `contact_type` (`phone` или `telegram`), `phone`, `telegram`, `contact_method`, `contact_method_label`;
+- источник: `utm_*`, `yclid`, `landing_url`, `referrer`.
+
+В ApiX-Drive выберите источник «Webhook», вставьте выданный адрес в `webhook_url` и отправьте тестовую заявку: сервис сам увидит поля. Ответ webhook с кодом 2xx считается успехом. Если webhook не ответил, заявка всё равно лежит в CSV, а ошибка пишется в `errors.log`.
 
 ## Telegram-бот
 

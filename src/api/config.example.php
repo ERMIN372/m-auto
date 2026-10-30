@@ -11,5 +11,9 @@ return [
   'site_host'     => 'example.ru',  // для мягкой проверки Origin/Referer; кириллический домен — в punycode
   'rate_limit'    => ['max' => 5, 'window_sec' => 600],
   'min_fill_sec'  => 3,
+  // необязательно: адрес webhook (например, из ApiX-Drive). Заявка уходит туда POST-запросом в JSON
+  'webhook_url'   => '',
+  // true: только webhook, Telegram-бот не используется; false: и Telegram, и webhook
+  'webhook_replaces_telegram' => false,
   // 'tg_api_base' => 'https://api.telegram.org', // менять только для теста или прокси
 ];
