@@ -21,10 +21,13 @@
           <li><a href="{{root}}consent/">Согласие на обработку персональных данных</a></li>
         </ul>
       </div>
+      <!-- блок появится, когда в site.config.json заполнят legal_name -->
+      <!-- if:legal_name -->
       <div class="footer__col">
         <p class="footer__heading">Юридическая информация</p>
-        <p class="footer__legal">{{legal_name}}<br>ИНН {{inn}}<br>ОГРН {{ogrn}}<br>{{legal_address}}</p>
+        <p class="footer__legal">{{legal_name}}<!-- if:inn --><br>ИНН {{inn}}<!-- endif:inn --><!-- if:ogrn --><br>ОГРН {{ogrn}}<!-- endif:ogrn --><!-- if:legal_address --><br>{{legal_address}}<!-- endif:legal_address --></p>
       </div>
+      <!-- endif:legal_name -->
     </div>
     <div class="footer__bottom">
       <p class="footer__disclaimer">Возможность приобретения и доставки конкретного автомобиля определяется после проверки его характеристик, документов и применимых требований законодательства.</p>

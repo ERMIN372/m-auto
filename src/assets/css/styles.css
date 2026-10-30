@@ -1057,7 +1057,8 @@ select {
 
 .case__facts {
   display: flex;
-  gap: var(--s-5);
+  flex-wrap: wrap;
+  gap: var(--s-1) var(--s-5);
   margin-top: var(--s-2);
   font-size: var(--fs-small);
   line-height: 1.35;
@@ -1103,9 +1104,44 @@ select {
   }
 }
 
+/* планшет: нечётная последняя карточка на всю ширину (5 → 2 + 2 + 1) */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .case:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
+  .case:last-child:nth-child(odd) .case__media {
+    aspect-ratio: 2 / 1;
+  }
+}
+
+/* десктоп: сетка на 6 колонок, карточка занимает 2.
+   5 карточек → 3 + 2 широкие, 4 → 3 + 1 на всю ширину, 6 → 3 + 3 */
 @media (min-width: 1024px) {
   .cases__list {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .case {
+    grid-column: span 2;
+  }
+
+  .case:nth-child(3n + 1):nth-last-child(2),
+  .case:nth-child(3n + 2):last-child {
+    grid-column: span 3;
+  }
+
+  .case:nth-child(3n + 1):last-child {
+    grid-column: 1 / -1;
+  }
+
+  .case:nth-child(3n + 1):nth-last-child(2) .case__media,
+  .case:nth-child(3n + 2):last-child .case__media {
+    aspect-ratio: 16 / 9;
+  }
+
+  .case:nth-child(3n + 1):last-child .case__media {
+    aspect-ratio: 21 / 9;
   }
 }
 
@@ -1447,7 +1483,9 @@ select {
   line-height: 1.55;
 }
 
-.review[data-placeholder] .review__text {
+.reviews__note {
+  margin-top: var(--s-4);
+  font-size: var(--fs-small);
   color: var(--c-muted);
 }
 

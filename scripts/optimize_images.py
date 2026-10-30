@@ -41,6 +41,9 @@ def optimize_one(src: Path) -> dict:
         im = ImageOps.exif_transpose(im).convert("RGB")
         widths = HERO_WIDTHS if name == "hero" else WIDTHS
         usable = [w for w in widths if w <= im.width] or [im.width]
+        # исходник заметно шире последнего шага (например 1179 px): берём и его
+        if im.width > usable[-1] * 1.15 and im.width < widths[-1]:
+            usable.append(im.width)
         for w in usable:
             h = round(im.height * w / im.width)
             resized = im.resize((w, h), Image.LANCZOS)

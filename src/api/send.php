@@ -96,10 +96,26 @@ if (!$saved) {
 }
 
 $message = telegram_message($lead);
-$sent = send_telegram($config, $message);
-if (!$sent) {
-    log_error($config, 'заявка #' . ($lead['id'] ?? '—') . ' не ушла в Telegram');
+$hookUrl = (string) $config['webhook_url'];
+$useTelegram = !($hookUrl !== '' && $config['webhook_replaces_telegram']);
+
+$sentTelegram = false;
+if ($useTelegram) {
+    $sentTelegram = send_telegram($config, $message);
+    if (!$sentTelegram) {
+        log_error($config, 'заявка #' . ($lead['id'] ?? '—') . ' не ушла в Telegram');
+    }
 }
+
+// webhook для ApiX-Drive и похожих сервисов: вместе с Telegram или вместо него
+$sentHook = false;
+if ($hookUrl !== '') {
+    $sentHook = send_webhook($config, $lead);
+    if (!$sentHook) {
+        log_error($config, 'заявка #' . ($lead['id'] ?? '—') . ' не ушла на webhook');
+    }
+}
+$sent = $sentTelegram || $sentHook;
 
 if ((string) $config['lead_email'] !== '') {
     if (!send_email($config, $lead, $message)) {
@@ -135,6 +151,8 @@ function load_config(): ?array
         'rate_limit' => ['max' => 5, 'window_sec' => 600],
         'min_fill_sec' => 3,
         'tg_api_base' => 'https://api.telegram.org',
+        'webhook_url' => '',
+        'webhook_replaces_telegram' => false,
     ];
     $cfg = array_replace($defaults, $cfg);
     $cfg['chat_ids'] = array_values(array_filter(array_map('strval', (array) $cfg['chat_ids']), 'strlen'));
@@ -602,7 +620,8 @@ function send_telegram(array $cfg, string $text): bool
     return $okAny;
 }
 
-function http_post(string $url, string $body): ?string
+/** @return array{0: int, 1: ?string} HTTP-код (0, если нет ответа) и тело ответа */
+function http_request(string $url, string $body, string $contentType): array
 {
     if (function_exists('curl_init')) {
         $ch = curl_init($url);
@@ -612,21 +631,77 @@ function http_post(string $url, string $body): ?string
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CONNECTTIMEOUT => 5,
             CURLOPT_TIMEOUT => 5,
-            CURLOPT_HTTPHEADER => ['Content-Type: application/x-www-form-urlencoded'],
+            CURLOPT_HTTPHEADER => ['Content-Type: ' . $contentType],
         ]);
         $result = curl_exec($ch);
+        $code = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
         curl_close($ch);
-        return is_string($result) ? $result : null;
+        return [$code, is_string($result) ? $result : null];
     }
     $ctx = stream_context_create(['http' => [
         'method' => 'POST',
-        'header' => "Content-Type: application/x-www-form-urlencoded\r\n",
+        'header' => 'Content-Type: ' . $contentType . "\r\n",
         'content' => $body,
         'timeout' => 5,
         'ignore_errors' => true,
     ]]);
     $result = @file_get_contents($url, false, $ctx);
-    return is_string($result) ? $result : null;
+    $code = 0;
+    foreach ($http_response_header ?? [] as $line) {
+        if (preg_match('~^HTTP/\S+\s+(\d{3})~', $line, $m)) {
+            $code = (int) $m[1];
+        }
+    }
+    return [$code, is_string($result) ? $result : null];
+}
+
+function http_post(string $url, string $body): ?string
+{
+    return http_request($url, $body, 'application/x-www-form-urlencoded')[1];
+}
+
+/** Данные заявки плоским JSON: так их удобно разложить по полям в ApiX-Drive */
+function webhook_payload(array $lead): array
+{
+    $c = $lead['contact'];
+    $isPhone = $c['type'] === 'phone';
+    return [
+        'id' => $lead['id'],
+        'created_msk' => $lead['created'],
+        'created_iso' => (new DateTimeImmutable('now', new DateTimeZone(TZ_NAME)))->format(DATE_ATOM),
+        'site' => BRAND,
+        'name' => $lead['name'],
+        'car' => $lead['car'],
+        'year_from' => $lead['year_from'],
+        'year_to' => $lead['year_to'],
+        'mileage_from' => $lead['mileage_from'],
+        'mileage_to' => $lead['mileage_to'],
+        'contact' => $isPhone ? format_phone($c['value']) : '@' . $c['value'],
+        'contact_type' => $c['type'],
+        'phone' => $isPhone ? $c['value'] : '',
+        'telegram' => $isPhone ? '' : $c['value'],
+        'contact_method' => $lead['contact_method'],
+        'contact_method_label' => $lead['contact_method'] === 'call' ? 'позвонить' : 'написать в мессенджер',
+        'utm_source' => $lead['utm_source'],
+        'utm_medium' => $lead['utm_medium'],
+        'utm_campaign' => $lead['utm_campaign'],
+        'utm_content' => $lead['utm_content'],
+        'utm_term' => $lead['utm_term'],
+        'yclid' => $lead['yclid'],
+        'landing_url' => $lead['landing_url'],
+        'referrer' => $lead['referrer'],
+    ];
+}
+
+function send_webhook(array $cfg, array $lead): bool
+{
+    $body = json_encode(webhook_payload($lead), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    [$code] = http_request((string) $cfg['webhook_url'], (string) $body, 'application/json; charset=utf-8');
+    if ($code < 200 || $code >= 300) {
+        log_error($cfg, 'webhook ответил кодом ' . $code);
+        return false;
+    }
+    return true;
 }
 
 function send_email(array $cfg, array $lead, string $telegramText): bool

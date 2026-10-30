@@ -5,7 +5,7 @@
 ## Стек
 - HTML + CSS + vanilla JS, без фреймворков и npm-зависимостей в рантайме.
 - Сборка: `scripts/build.py` (Python 3, только stdlib). Картинки: `scripts/optimize_images.py` (Pillow).
-- Заявки: `src/api/send.php` (PHP 8) → CSV в storage → Telegram-бот → (опц.) почта.
+- Заявки: `src/api/send.php` (PHP 8) → CSV в storage → Telegram-бот и/или webhook (`webhook_url`, `webhook_replaces_telegram`) → (опц.) почта.
 - Шрифт: Onest variable, `src/assets/fonts/onest-var.woff2` (подмножество, wght 400–650). Исходник и OFL: `scripts/fonts/`.
 
 ## Команды
@@ -27,7 +27,8 @@ bash scripts/qa/e2e_prod.sh                            # prod-форма → sen
 ```
 
 ## Структура
-- `site.config.json`: все меняющиеся данные (`shared` + `preview`/`prod`).
+- `site.config.json`: все меняющиеся данные (`shared` + `preview`/`prod`). В prod обязательны только `site_url`, `phone_e164`, `phone_display`; пустые юр. данные скрывают блок в футере, в документах стоят пометки `[наименование оператора]` и т.п.
+- `content/cases.json`: кейсы «уже привезли», рендерит `<!-- cases -->` по шаблону `src/_partials/case.html`; поле `show` выбирает факты (year, engine, delivery).
 - `src/`: исходники. `src/_partials/` вставляются через `<!-- include:name -->` и не копируются.
 - `src/assets/img/raw/`: исходники фото (в .gitignore), `manifest.json` пишет optimize_images.py.
 - `docs/`: сгенерированное превью, коммитится. `dist/`, `qa/`, `img/raw/`, `api/config.php`: в .gitignore.

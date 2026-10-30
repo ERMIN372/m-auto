@@ -1,0 +1,56 @@
+{
+  "_help": [
+    "Кейсы для блока «Автомобили, которые мы уже привезли клиентам». Сборка: python3 scripts/build.py.",
+    "show: какие факты выводить под названием и в каком порядке: year, engine, delivery.",
+    "Чтобы вернуть срок доставки: впишите delivery в карточки (например \"18 дней\") и добавьте \"delivery\" в show.",
+    "photo: имя фото без расширения; исходник кладётся в src/assets/img/raw/<photo>.jpg, затем optimize_images.py.",
+    "price_rub: цена под ключ числом. alt: необязательно, по умолчанию «модель, год».",
+    "Сетка подстраивается под 5 и 6 карточек."
+  ],
+  "show": [
+    "year",
+    "engine"
+  ],
+  "cases": [
+    {
+      "photo": "case-1",
+      "model": "Toyota RAV4 4×4",
+      "year": 2020,
+      "engine": "2,5 л, гибрид",
+      "delivery": "",
+      "price_rub": 2000000
+    },
+    {
+      "photo": "case-2",
+      "model": "Volkswagen Multivan T6.1 4Motion",
+      "year": 2020,
+      "engine": "2,0 л, дизель",
+      "delivery": "",
+      "price_rub": 3200000
+    },
+    {
+      "photo": "case-3",
+      "model": "Mazda CX-5",
+      "year": 2023,
+      "engine": "2,5 л, бензин",
+      "delivery": "",
+      "price_rub": 2700000
+    },
+    {
+      "photo": "case-4",
+      "model": "KIA Sorento Platinum",
+      "year": 2020,
+      "engine": "2,2 л, дизель",
+      "delivery": "",
+      "price_rub": 2300000
+    },
+    {
+      "photo": "case-5",
+      "model": "Mercedes-Benz E300 e AMG",
+      "year": 2025,
+      "engine": "2,0 л, гибрид",
+      "delivery": "",
+      "price_rub": 5400000
+    }
+  ]
+}
