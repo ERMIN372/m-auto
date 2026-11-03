@@ -627,11 +627,27 @@ function send_telegram(array $cfg, string $text): bool
         if (is_array($data) && ($data['ok'] ?? false) === true) {
             $okAny = true;
         } else {
-            $desc = is_array($data) ? (string) ($data['description'] ?? 'неизвестная ошибка') : 'нет ответа';
+            $desc = is_array($data)
+                ? (string) ($data['description'] ?? 'неизвестная ошибка')
+                : 'нет ответа' . (($GLOBALS['http_last_error'] ?? '') !== '' ? ' (' . $GLOBALS['http_last_error'] . ')' : '');
             log_error($cfg, 'Telegram, чат ' . $chatId . ': ' . mb_substr($desc, 0, 200));
+            // нет связи с Telegram: сообщение ждёт досылки (deploy/docker/tg_retry.php)
+            if (!is_array($data)) {
+                tg_enqueue($cfg, (string) $chatId, $text);
+            }
         }
     }
     return $okAny;
+}
+
+/** Очередь досылки в Telegram: строка JSON на сообщение */
+function tg_enqueue(array $cfg, string $chatId, string $text): void
+{
+    $dir = rtrim((string) $cfg['storage_dir'], '/');
+    $line = json_encode(['chat_id' => $chatId, 'text' => $text, 'queued' => time()], JSON_UNESCAPED_UNICODE) . "\n";
+    if (!is_dir($dir) || @file_put_contents($dir . '/tg-pending.jsonl', $line, FILE_APPEND | LOCK_EX) === false) {
+        error_log('M-AUTO: не удалось поставить сообщение в очередь досылки');
+    }
 }
 
 /** @return array{0: int, 1: ?string} HTTP-код (0, если нет ответа) и тело ответа */
@@ -644,11 +660,12 @@ function http_request(string $url, string $body, string $contentType): array
             CURLOPT_POSTFIELDS => $body,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CONNECTTIMEOUT => 5,
-            CURLOPT_TIMEOUT => 5,
+            CURLOPT_TIMEOUT => 8,
             CURLOPT_HTTPHEADER => ['Content-Type: ' . $contentType],
         ]);
         $result = curl_exec($ch);
         $code = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+        $GLOBALS['http_last_error'] = $result === false ? curl_error($ch) : '';
         curl_close($ch);
         return [$code, is_string($result) ? $result : null];
     }
@@ -656,7 +673,7 @@ function http_request(string $url, string $body, string $contentType): array
         'method' => 'POST',
         'header' => 'Content-Type: ' . $contentType . "\r\n",
         'content' => $body,
-        'timeout' => 5,
+        'timeout' => 8,
         'ignore_errors' => true,
     ]]);
     $result = @file_get_contents($url, false, $ctx);
