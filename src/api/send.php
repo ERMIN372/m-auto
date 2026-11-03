@@ -529,9 +529,8 @@ function log_error(array $cfg, string $message): void
     // в лог только номер и тип ошибки, без персональных данных
     $dir = rtrim((string) $cfg['storage_dir'], '/');
     $line = (new DateTimeImmutable('now', new DateTimeZone(TZ_NAME)))->format('Y-m-d H:i:s') . ' МСК  ' . $message . "\n";
-    if (!is_dir($dir) || @file_put_contents($dir . '/errors.log', $line, FILE_APPEND | LOCK_EX) === false) {
-        error_log('M-AUTO: ' . $message);
-    }
+    @file_put_contents($dir . '/errors.log', $line, FILE_APPEND | LOCK_EX);
+    error_log('M-AUTO: ' . $message); // ещё и в лог сервера: в Docker он виден в логах платформы
 }
 
 
@@ -602,6 +601,7 @@ function send_telegram(array $cfg, string $text): bool
 {
     $token = (string) $cfg['bot_token'];
     if ($token === '' || !$cfg['chat_ids']) {
+        log_error($cfg, 'Telegram: не задан ' . ($token === '' ? 'bot_token' : 'chat_ids'));
         return false;
     }
     $url = rtrim((string) $cfg['tg_api_base'], '/') . '/bot' . $token . '/sendMessage';
