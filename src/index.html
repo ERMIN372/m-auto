@@ -158,10 +158,10 @@
           <input type="hidden" name="referrer" value="">
           <input type="hidden" name="landing_url" value="">
           <input type="hidden" name="form_ts" value="">
-          <!-- ловушка для ботов: человек это поле не видит -->
+          <!-- ловушка для ботов: человек это поле не видит. Имя и подпись без смысла, чтобы автозаполнение браузера его не трогало -->
           <div class="form__trap" aria-hidden="true">
-            <label for="f-company-site">Сайт компании</label>
-            <input id="f-company-site" type="text" name="company_site" value="" tabindex="-1" autocomplete="off">
+            <label for="f-hp">Оставьте пустым</label>
+            <input id="f-hp" type="text" name="hp_extra" value="" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore>
           </div>
 
           <div class="form__submit">

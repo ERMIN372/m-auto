@@ -177,7 +177,10 @@ return [
         check(not received, "при 422 в Telegram ничего не ушло")
 
         code, _, body = post(lead(company_site="http://spam.example"))
-        check(code == 200 and json.loads(body) == {"ok": True} and not received, "ловушка → тихий «ок», ничего не отправлено")
+        valid += 1
+        trap_sent = [m for m in received if "Возможно спам" in m.get("text", "")]
+        check(code == 200 and json.loads(body).get("ok") and trap_sent, "ловушка → заявка уходит с пометкой «Возможно спам»")
+        received.clear()
         code, _, body = post(lead(form_elapsed="800"))
         check(code == 200 and json.loads(body) == {"ok": True} and not received, "отправка быстрее 3 с → тихий «ок»")
 
