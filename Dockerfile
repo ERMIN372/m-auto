@@ -16,6 +16,7 @@ RUN a2enmod rewrite headers expires deflate remoteip \
  && echo 'ServerName localhost' > /etc/apache2/conf-enabled/servername.conf
 # платформа может проксировать на свой порт из $PORT: добавляем его при старте
 COPY deploy/docker/start.sh /usr/local/bin/m-auto-start
+COPY deploy/docker/tg_retry.php /usr/local/lib/m-auto/tg_retry.php
 COPY deploy/docker/apache-m-auto.conf /etc/apache2/conf-enabled/m-auto.conf
 COPY --from=build /src/dist/ /var/www/html/
 COPY deploy/docker/config.php /var/www/html/api/config.php
