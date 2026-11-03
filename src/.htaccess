@@ -13,9 +13,9 @@ ErrorDocument 404 /404.html
 #   RewriteCond %{HTTPS} off
 #   RewriteCond %{HTTP:X-Forwarded-Proto} !https
 #   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-#   # www → без www (замените example.ru на свой домен)
-#   RewriteCond %{HTTP_HOST} ^www\.example\.ru$ [NC]
-#   RewriteRule ^ https://example.ru%{REQUEST_URI} [L,R=301]
+#   # www → без www (основной адрес m-auto-import.ru без www)
+#   RewriteCond %{HTTP_HOST} ^www\.m-auto-import\.ru$ [NC]
+#   RewriteRule ^ https://m-auto-import.ru%{REQUEST_URI} [L,R=301]
 # </IfModule>
 
 <IfModule mod_mime.c>

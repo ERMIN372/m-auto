@@ -1,0 +1,8 @@
+.git
+docs
+dist
+qa
+node_modules
+src/assets/img/raw
+src/api/config.php
+src/api/storage

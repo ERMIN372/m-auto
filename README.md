@@ -86,6 +86,38 @@ dist/                собранный прод (генерируется, в g
 - В `errors.log` нет персональных данных, только номер заявки и тип ошибки.
 - Если хостинг стоит за прокси и у всех посетителей одинаковый `REMOTE_ADDR`, лимит сработает на всех сразу. Тогда увеличьте `rate_limit.max` или уточните у хостинга, как получить реальный IP.
 
+## Запуск на своём сервере (VPS с nginx и PHP-FPM)
+
+Домен: `m-auto-import.ru`. Готовый конфиг: `deploy/nginx-m-auto-import.ru.conf`.
+
+1. **DNS.** У регистратора A-запись `@` и `www` на IP сервера. Проверка: `dig +short m-auto-import.ru` выдаёт IP сервера (обновление занимает от минут до нескольких часов).
+2. **PHP.** `php -v` должен показать 8.x, нужны пакеты `php-fpm` и `php-curl`. Сокет FPM: `ls /run/php/`, его имя вписать в `fastcgi_pass` в конфиге.
+3. **Файлы.** Собрать `python3 scripts/build.py --env prod`, залить содержимое `dist/` в `/var/www/m-auto-import.ru` (`rsync -av --delete dist/ user@server:/var/www/m-auto-import.ru/`). `.htaccess` на nginx не работает, это нормально.
+4. **Заявки вне сайта.**
+   ```bash
+   sudo mkdir -p /var/lib/m-auto/storage
+   sudo chown www-data:www-data /var/lib/m-auto/storage && sudo chmod 750 /var/lib/m-auto/storage
+   ```
+   В `api/config.php`: `'storage_dir' => '/var/lib/m-auto/storage'`, `'site_host' => 'm-auto-import.ru'`, токен и `chat_ids`. Права на конфиг: `sudo chown root:www-data config.php && sudo chmod 640 config.php`.
+5. **nginx.**
+   ```bash
+   sudo cp nginx-m-auto-import.ru.conf /etc/nginx/sites-available/m-auto-import.ru.conf
+   sudo ln -s /etc/nginx/sites-available/m-auto-import.ru.conf /etc/nginx/sites-enabled/
+   sudo nginx -t && sudo systemctl reload nginx
+   ```
+6. **HTTPS.** `sudo certbot --nginx -d m-auto-import.ru -d www.m-auto-import.ru`, на вопрос про редирект ответить «да». Продление: `sudo certbot renew --dry-run`.
+7. **Проверка.**
+   ```bash
+   curl -sI https://m-auto-import.ru/ | head -1                 # 200
+   curl -sI https://www.m-auto-import.ru/ | grep -i location     # → https://m-auto-import.ru/
+   curl -sI https://m-auto-import.ru/api/config.php | head -1    # 404
+   curl -sI https://m-auto-import.ru/api/storage/ | head -1      # 404
+   ```
+   Затем тестовая заявка с телефона: сообщение в Telegram, строка в `/var/lib/m-auto/storage/leads-ГГГГ-ММ.csv`, пустой `errors.log`. Если заявка не дошла: `sudo tail -50 /var/log/nginx/error.log` и `errors.log` в storage.
+8. **Бэкап заявок.** Например, раз в сутки по cron: `tar czf /root/backup/m-auto-$(date +%F).tar.gz /var/lib/m-auto/storage`.
+
+Сервер должен стоять в РФ: заявки содержат персональные данные, а 152-ФЗ требует первичной записи данных граждан РФ в базы на территории России.
+
 ## Webhook для ApiX-Drive (необязательно)
 
 Если заявки нужно передавать дальше (CRM, таблица, бот через ApiX-Drive), в `api/config.php`:
