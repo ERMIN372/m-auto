@@ -394,7 +394,7 @@
         consent: f.consent ? (f.consent.checked ? "1" : "") : "1",
         form_ts: String(loadTs),
         form_elapsed: String(Date.now() - loadTs),
-        company_site: form.elements.company_site ? form.elements.company_site.value : ""
+        company_site: form.elements.hp_extra ? form.elements.hp_extra.value : ""
       };
       UTM_KEYS.concat(["referrer", "landing_url"]).forEach(function (key) {
         data[key] = touch[key] || "";

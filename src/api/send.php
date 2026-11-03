@@ -23,7 +23,7 @@ const ALLOWED_FIELDS = [
     'name', 'car', 'year_from', 'year_to', 'mileage_from', 'mileage_to',
     'contact', 'contact_method', 'consent',
     'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'yclid',
-    'referrer', 'landing_url', 'form_ts', 'form_elapsed', 'company_site',
+    'referrer', 'landing_url', 'form_ts', 'form_elapsed', 'company_site', 'hp_extra',
 ];
 
 // на редких хостингах без mbstring
@@ -70,11 +70,17 @@ if ($input === null) {
     respond(400, ['ok' => false], $isJson);
 }
 
-// антиспам: ловушка или слишком быстрая отправка → тихий «ок», ничего не шлём
+// антиспам: слишком быстрая отправка → тихий «ок», ничего не шлём
 $spamReason = spam_reason($input, $config);
 if ($spamReason !== null) {
     log_error($config, 'антиспам: ' . $spamReason);
     respond(200, ['ok' => true], $isJson);
+}
+// заполненную ловушку не выбрасываем: её мог заполнить браузер живого человека.
+// Заявка уходит с пометкой, менеджер решает сам.
+$trapFilled = ($input['company_site'] ?? '') !== '' || ($input['hp_extra'] ?? '') !== '';
+if ($trapFilled) {
+    log_error($config, 'заполнено скрытое поле, заявка отправлена с пометкой');
 }
 
 [$lead, $errors] = validate_lead($input);
@@ -97,7 +103,7 @@ if (!$saved) {
     log_error($config, 'заявка #' . ($lead['id'] ?? '—') . ' не записана в CSV');
 }
 
-$message = telegram_message($lead);
+$message = ($trapFilled ? "⚠️ Возможно спам: заполнено скрытое поле\n" : '') . telegram_message($lead);
 $hookUrl = (string) $config['webhook_url'];
 $useTelegram = !($hookUrl !== '' && $config['webhook_replaces_telegram']);
 
@@ -218,9 +224,6 @@ function read_input(bool $isJson): ?array
 /** null, если не спам; иначе причина для лога (без персональных данных) */
 function spam_reason(array $in, array $cfg): ?string
 {
-    if ($in['company_site'] !== '') {
-        return 'заполнено скрытое поле';
-    }
     // время заполнения считает браузер: так не мешают сбитые часы у посетителя
     if ($in['form_elapsed'] !== '' && ctype_digit($in['form_elapsed'])
         && (int) $in['form_elapsed'] < (int) $cfg['min_fill_sec'] * 1000) {
