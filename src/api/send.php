@@ -173,8 +173,13 @@ function origin_ok(string $siteHost): bool
     if (!is_string($host) || $host === '') {
         return true;
     }
-    $norm = static fn (string $h): string => preg_replace('/^www\./', '', strtolower($h)) ?? $h;
-    return $norm($host) === $norm($siteHost);
+    $norm = static fn (string $h): string => preg_replace('/^www\./', '', strtolower(trim($h))) ?? $h;
+    foreach (explode(',', $siteHost) as $allowed) {
+        if (trim($allowed) !== '' && $norm($host) === $norm($allowed)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 function read_input(bool $isJson): ?array
@@ -710,7 +715,7 @@ function send_email(array $cfg, array $lead, string $telegramText): bool
     if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {
         return false;
     }
-    $host = (string) ($cfg['site_host'] ?: ($_SERVER['HTTP_HOST'] ?? 'localhost'));
+    $host = trim(explode(',', (string) $cfg['site_host'])[0]) ?: (string) ($_SERVER['HTTP_HOST'] ?? 'localhost');
     $host = preg_replace('/[^a-z0-9.\-]/i', '', $host) ?: 'localhost';
     $subject = 'Заявка ' . ($lead['id'] !== null ? '#' . $lead['id'] : '') . ' с сайта ' . BRAND;
     $text = html_entity_decode(strip_tags(str_replace('🚗 ', '', $telegramText)), ENT_QUOTES | ENT_HTML5, 'UTF-8');

@@ -8,7 +8,7 @@ return [
   'chat_ids'      => [''],          // один или несколько чатов, у групп id отрицательный
   'lead_email'    => '',            // необязательно: дубль заявок на почту
   'storage_dir'   => __DIR__ . '/storage', // лучше вне web-root, если хостинг позволяет
-  'site_host'     => 'm-auto-import.ru', // для мягкой проверки Origin/Referer; кириллический домен — в punycode
+  'site_host'     => 'm-auto-import.ru', // для мягкой проверки Origin/Referer, несколько доменов через запятую; кириллический домен — в punycode
   'rate_limit'    => ['max' => 5, 'window_sec' => 600],
   'min_fill_sec'  => 3,
   // необязательно: адрес webhook (например, из ApiX-Drive). Заявка уходит туда POST-запросом в JSON

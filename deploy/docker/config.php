@@ -13,7 +13,7 @@ return [
   'chat_ids'    => array_map('trim', explode(',', $env('TG_CHAT_IDS'))),
   'lead_email'  => $env('LEAD_EMAIL'),
   'storage_dir' => '/var/lib/m-auto/storage',
-  'site_host'   => $env('SITE_HOST') !== '' ? $env('SITE_HOST') : 'm-auto-import.ru',
+  'site_host'   => $env('SITE_HOST') !== '' ? $env('SITE_HOST') : 'm-auto-import.ru,m-auto.relaxdev.ru',
   'rate_limit'  => ['max' => 5, 'window_sec' => 600],
   'min_fill_sec'=> 3,
   'webhook_url' => $env('WEBHOOK_URL'),
