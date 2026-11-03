@@ -71,7 +71,9 @@ if ($input === null) {
 }
 
 // антиспам: ловушка или слишком быстрая отправка → тихий «ок», ничего не шлём
-if (is_spam($input, $config)) {
+$spamReason = spam_reason($input, $config);
+if ($spamReason !== null) {
+    log_error($config, 'антиспам: ' . $spamReason);
     respond(200, ['ok' => true], $isJson);
 }
 
@@ -104,6 +106,8 @@ if ($useTelegram) {
     $sentTelegram = send_telegram($config, $message);
     if (!$sentTelegram) {
         log_error($config, 'заявка #' . ($lead['id'] ?? '—') . ' не ушла в Telegram');
+    } else {
+        error_log('M-AUTO: заявка #' . ($lead['id'] ?? '—') . ' отправлена в Telegram');
     }
 }
 
@@ -211,16 +215,18 @@ function read_input(bool $isJson): ?array
     return $clean;
 }
 
-function is_spam(array $in, array $cfg): bool
+/** null, если не спам; иначе причина для лога (без персональных данных) */
+function spam_reason(array $in, array $cfg): ?string
 {
     if ($in['company_site'] !== '') {
-        return true;
+        return 'заполнено скрытое поле';
     }
     // время заполнения считает браузер: так не мешают сбитые часы у посетителя
-    if ($in['form_elapsed'] !== '' && ctype_digit($in['form_elapsed'])) {
-        return (int) $in['form_elapsed'] < (int) $cfg['min_fill_sec'] * 1000;
+    if ($in['form_elapsed'] !== '' && ctype_digit($in['form_elapsed'])
+        && (int) $in['form_elapsed'] < (int) $cfg['min_fill_sec'] * 1000) {
+        return 'форма заполнена за ' . (int) $in['form_elapsed'] . ' мс';
     }
-    return false;
+    return null;
 }
 
 
