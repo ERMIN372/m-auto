@@ -6,6 +6,7 @@
     "metrika_webvisor": true
   },
   "preview": {
+    "reviews_enabled": true,
     "site_url": "https://ermin372.github.io/m-auto",
     "phone_e164": "+491787469537",
     "phone_display": "+49 178 7469537",
@@ -22,6 +23,7 @@
     "policy_date": ""
   },
   "prod": {
+    "reviews_enabled": false,
     "site_url": "https://m-auto-import.ru",
     "phone_e164": "+491787469537",
     "phone_display": "+49 178 7469537",

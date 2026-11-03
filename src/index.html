@@ -323,7 +323,8 @@
     </div>
   </section>
 
-  <!-- 10. ОТЗЫВЫ. Только реальные материалы с согласия клиентов: имена и истории не выдумывать. -->
+  <!-- if:reviews_enabled -->
+  <!-- 10. ОТЗЫВЫ: показ флагом reviews_enabled (в prod выключен, пока нет реальных отзывов). Только реальные материалы с согласия клиентов: имена и истории не выдумывать. -->
   <section class="reviews" aria-labelledby="reviews-title">
     <div class="container">
       <div class="section-head">
@@ -373,6 +374,7 @@
       <!-- env:preview --><p class="reviews__note">Тексты отзывов здесь примеры формата для согласования. На сайте будут только реальные отзывы клиентов M-AUTO.</p><!-- endenv:preview -->
     </div>
   </section>
+  <!-- endif:reviews_enabled -->
 
   <!-- 11. ФИНАЛЬНЫЙ CTA: кнопка ведёт к той же форме (без модалки) -->
   <section class="final" aria-labelledby="final-title">
